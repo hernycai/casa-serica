@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CASA SÉRICA · Objetos para habitar | Impresión 3D de Diseño</title>
+  <meta name="description" content="Nacemos desde la búsqueda de la calma, la atemporalidad y el valor de lo cotidiano. Curamos y creamos objetos en 3D pensados para acompañar tus días.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="CASA SÉRICA · Objetos para habitar">
+  <meta property="og:description" content="Objetos de diseño creados con impresión 3D, formas orgánicas y texturas que transmiten serenidad.">
+  <meta property="og:image" content="assets/images/florero-u.webp">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts: Cormorant Garamond (Editorial Serif) & Plus Jakarta Sans (Grotesque Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-announcement">
+    <span>Envíos a todo el país · Objetos de diseño fabricados con impresión 3D consciente</span>
+  </div>
+
+  <!-- Site Navigation -->
+  <header class="site-header" id="header">
+    <div class="header-container">
+      <a href="#hero" class="brand-logo" aria-label="CASA SÉRICA">
+        <img src="assets/images/logo-serica.png" alt="SÉRICA Logo" class="brand-logo-img">
+        <div class="brand-logo-text">
+          <span class="brand-title">SÉRICA</span>
+          <span class="brand-tagline">Objetos para habitar</span>
+        </div>
+      </a>
+
+      <nav class="desktop-nav">
+        <a href="#lo-primero" class="nav-link">Filosofía</a>
+        <a href="#distincion" class="nav-link">Por qué es distinto</a>
+        <a href="#coleccion" class="nav-link">Colección</a>
+        <a href="#personalizados" class="nav-link">Personalizados</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="#coleccion" class="btn btn-header">Adquirir Ahora</a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menú">
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+      <nav class="mobile-nav">
+        <a href="#hero" class="mobile-nav-link">Inicio</a>
+        <a href="#lo-primero" class="mobile-nav-link">Filosofía</a>
+        <a href="#distincion" class="mobile-nav-link">Por qué es distinto</a>
+        <a href="#coleccion" class="mobile-nav-link">Colección de Objetos</a>
+        <a href="#personalizados" class="mobile-nav-link">Pedidos a Medida</a>
+        <a href="#coleccion" class="btn btn-primary w-full mt-4">Adquirir Ahora</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. PORTADA / HERO (IMAGEN 1 A PANTALLA COMPLETA + MARCA + PROMESA) -->
+    <section class="hero-section" id="hero">
+      <div class="hero-bg-container">
+        <img src="assets/images/florero-u.webp" alt="Florero Escultural en U Acanalado CASA SÉRICA" class="hero-bg-img">
+        <div class="hero-overlay"></div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-badge">Buenos Aires · Impresión 3D de Autor</div>
+        <h1 class="hero-brand">CASA SÉRICA</h1>
+        <p class="hero-slogan">Objetos para habitar.</p>
+        <div class="hero-divider"></div>
+        <p class="hero-promise">
+          Nacemos desde la búsqueda de la calma, la atemporalidad y el valor de lo cotidiano. Curamos y creamos objetos pensados para acompañar tus días con materiales nobles, formas orgánicas y texturas que transmiten serenidad.
+        </p>
+        <div class="hero-cta-group">
+          <a href="#coleccion" class="btn btn-primary">Adquirir Ahora</a>
+          <a href="#lo-primero" class="btn btn-secondary">Conocer la Colección</a>
+        </div>
+      </div>
+      <a href="#lo-primero" class="scroll-indicator" aria-label="Desplazar hacia abajo">
+        <span class="scroll-text">Descubrir</span>
+        <span class="scroll-line"></span>
+      </a>
+    </section>
+
+    <!-- 2. LO PRIMERO QUE HAY QUE SABER (EXACTAMENTE TRES BLOQUES CORTOS) -->
+    <section class="editorial-statement-section" id="lo-primero">
+      <div class="container">
+        <div class="section-kicker">Lo esencial</div>
+        <h2 class="section-heading">Tres principios para comprender cada pieza</h2>
+
+        <div class="three-blocks-grid">
+          <article class="statement-card">
+            <span class="card-number">01</span>
+            <h3 class="card-title">Fabricación aditiva de precisión</h3>
+            <p class="card-text">
+              Cada objeto se materializa capa a capa mediante modelado digital y tecnología 3D de alta definición, dando vida a geometrías acanaladas imposibles de replicar en moldes tradicionales.
+            </p>
+          </article>
+
+          <article class="statement-card">
+            <span class="card-number">02</span>
+            <h3 class="card-title">Texturas que transmiten serenidad</h3>
+            <p class="card-text">
+              Líneas onduladas, relieves táctiles y tonalidades arena concebidos para dialogar suavemente con la luz natural de tu hogar y suscitar una atmósfera de pausa.
+            </p>
+          </article>
+
+          <article class="statement-card">
+            <span class="card-number">03</span>
+            <h3 class="card-title">Objetos pensados para habitar</h3>
+            <p class="card-text">
+              Piezas escultóricas y utilitarias que van más allá del ornamento: nacen para enriquecer el ritual del café, el arreglo botánico y el sosiego en tus espacios cotidianos.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. IMAGEN 2 A PANTALLA COMPLETA (CON UNA SOLA FRASE ENCIMA) -->
+    <section class="fullscreen-image-section section-image-2">
+      <div class="fullscreen-img-wrap">
+        <img src="assets/images/posavasos-pack.webp" alt="Detalle posavasos orgánicos acanalados CASA SÉRICA" class="fullscreen-img">
+        <div class="fullscreen-overlay"></div>
+      </div>
+      <div class="fullscreen-quote-box">
+        <blockquote class="editorial-quote">
+          «Superficies táctiles donde la geometría orgánica se encuentra con la pausa cotidiana.»
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 4. POR QUÉ ES DISTINTO (EXACTAMENTE DOS FRASES) -->
+    <section class="distinction-section" id="distincion">
+      <div class="container distinction-container">
+        <div class="distinction-kicker">Diferencial & Técnica</div>
+        <h2 class="distinction-heading">Materia contemporánea, espíritu artesanal</h2>
+        
+        <div class="distinction-content">
+          <p class="distinction-sentence">
+            Fusionamos la vanguardia del modelado 3D con una sensibilidad editorial sobria, logrando acabados táctiles mate que prescinden de todo brillo sintético para evocar la nobleza mineral de la piedra travertino y la arcilla.
+          </p>
+          <div class="distinction-separator"></div>
+          <p class="distinction-sentence">
+            Cada objeto se produce bajo demanda en nuestro taller con residuo mínimo de materia prima, garantizando una pieza única, consciente y destinada a trascender cualquier tendencia pasajera.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. IMAGEN 3 A PANTALLA COMPLETA -->
+    <section class="fullscreen-image-section section-image-3">
+      <div class="fullscreen-img-wrap">
+        <img src="assets/images/dispensador-lena.webp" alt="Dispensador Lena en ambiente cocina contemporánea" class="fullscreen-img">
+        <div class="fullscreen-overlay"></div>
+      </div>
+      <div class="fullscreen-caption-box">
+        <span class="caption-tag">Diseño Funcional</span>
+        <p class="caption-title">Equilibrio entre materia, proporción y utilidad diaria.</p>
+      </div>
+    </section>
+
+    <!-- 6. CIERRE: LLAMADA A LA ACCIÓN + CATÁLOGO INTEGRADO DE PIEZAS -->
+    <section class="closing-section" id="coleccion">
+      <div class="container">
+        
+        <!-- Header del Cierre -->
+        <div class="closing-intro">
+          <div class="section-kicker">Colección Disponible</div>
+          <h2 class="closing-heading">Objetos listos para formar parte de tu espacio</h2>
+          <div class="closing-conditions-bar">
+            <div class="condition-item">
+              <span class="condition-dot"></span>
+              <strong>Piezas desde $14.000 ARS</strong>
+            </div>
+            <div class="condition-divider"></div>
+            <div class="condition-item">
+              <span class="condition-dot"></span>
+              <strong>Envíos a todo el país</strong>
+            </div>
+            <div class="condition-divider"></div>
+            <div class="condition-item">
+              <span class="condition-dot"></span>
+              <strong>Embalaje protegido de autor</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grid de Productos Reales -->
+        <div class="products-editorial-grid">
+          
+          <!-- Producto 1: Florero en U -->
+          <article class="product-editorial-card">
+            <div class="product-image-container">
+              <img src="assets/images/florero-u.webp" alt="Florero Escultural en U Acanalado" class="product-card-img">
+              <span class="product-badge">Pieza Escultórica</span>
+            </div>
+            <div class="product-info-wrap">
+              <div class="product-header">
+                <h3 class="product-title">Florero Escultural en U Acanalado</h3>
+                <span class="product-price">$22.000 ARS</span>
+              </div>
+              <p class="product-desc">
+                Silueta curva con doble abertura y acabado de estrías arquitectónicas. Diseñado para sostener ramas secas o presentarse como una escultura autónoma sobre consolas y mesas de centro.
+              </p>
+              <ul class="product-specs">
+                <li><span>Acabado:</span> Mate sedoso tonalidad arena</li>
+                <li><span>Técnica:</span> Impresión 3D capa ultra fina</li>
+                <li><span>Uso:</span> Arreglos botánicos secos / Pieza de acento</li>
+              </ul>
+              <button class="btn btn-primary w-full open-order-btn" 
+                      data-product="Florero Escultural en U Acanalado" 
+                      data-price="22000"
+                      data-image="assets/images/florero-u.webp">
+                Adquirir Ahora
+              </button>
+            </div>
+          </article>
+
+          <!-- Producto 2: Posavasos Pack x4 -->
+          <article class="product-editorial-card">
+            <div class="product-image-container">
+              <img src="assets/images/posavasos-pack.webp" alt="Posavasos Minimalista Serica Organic Pack X4" class="product-card-img">
+              <span class="product-badge">Set de 4 Unidades</span>
+            </div>
+            <div class="product-info-wrap">
+              <div class="product-header">
+                <h3 class="product-title">Posavasos Minimalistas Orgánicos</h3>
+                <span class="product-price">$14.000 ARS</span>
+              </div>
+              <p class="product-desc">
+                Curvas asimétricas inspiradas en guijarros de río, con acanalado central que recoge la condensación y protege tus mesas de madera o piedra.
+              </p>
+              <ul class="product-specs">
+                <li><span>Contenido:</span> Pack de 4 posavasos</li>
+                <li><span>Tacto:</span> Relieve estriado antideslizante</li>
+                <li><span>Cuidado:</span> Lavable con agua tibia y paño suave</li>
+              </ul>
+              <button class="btn btn-primary w-full open-order-btn" 
+                      data-product="Posavasos Minimalista Serica Organic Pack X4" 
+                      data-price="14000"
+                      data-image="assets/images/posavasos-pack.webp">
+                Adquirir Ahora
+              </button>
+            </div>
+          </article>
+
+          <!-- Producto 3: Dispensador Lena -->
+          <article class="product-editorial-card">
+            <div class="product-image-container">
+              <img src="assets/images/dispensador-lena.webp" alt="Dispensador de film y papel aluminio LENA" class="product-card-img">
+              <span class="product-badge">Cocina Funcional</span>
+            </div>
+            <div class="product-info-wrap">
+              <div class="product-header">
+                <h3 class="product-title">Dispensador de Film y Aluminio · LENA</h3>
+                <span class="product-price">$38.000 ARS</span>
+              </div>
+              <p class="product-desc">
+                Solución de almacenamiento con cuchilla de corte bidireccional integrada. Elimina el desorden visual de los empaques comerciales manteniendo líneas limpias en tu cocina.
+              </p>
+              <ul class="product-specs">
+                <li><span>Función:</span> Dispensador doble con cortador limpio</li>
+                <li><span>Montaje:</span> Apoyo sobre mesada o interior de cajón</li>
+                <li><span>Compatibilidad:</span> Rollos universales estándar</li>
+              </ul>
+              <button class="btn btn-primary w-full open-order-btn" 
+                      data-product="Dispensador de film y aluminio LENA" 
+                      data-price="38000"
+                      data-image="assets/images/dispensador-lena.webp">
+                Adquirir Ahora
+              </button>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Ambientación Editorial -->
+        <div class="editorial-quote-banner">
+          <div class="editorial-banner-content">
+            <img src="assets/images/editorial-ambiente-consola.jpg" alt="Ambientación Casa Sérica" class="editorial-banner-img">
+            <div class="editorial-banner-text">
+              <span class="section-kicker">La Experiencia SÉRICA</span>
+              <h3 class="banner-title">«Curamos y creamos objetos para acompañar tus días.»</h3>
+              <p class="banner-p">
+                Recibe cada pieza con embalaje seguro, listo para obsequiar o incorporar de inmediato en tu hogar.
+              </p>
+              <div class="banner-action">
+                <a href="#contacto-whatsapp" class="btn btn-secondary trigger-whatsapp">Consultar Disponibilidad</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7. PEDIDOS PERSONALIZADOS / ENCARGOS A MEDIDA -->
+    <section class="custom-orders-section" id="personalizados">
+      <div class="container">
+        <div class="custom-orders-grid">
+          <div class="custom-orders-text">
+            <div class="section-kicker">Creaciones Especiales</div>
+            <h2 class="custom-heading">¿Buscas una dimensión, color o forma a medida?</h2>
+            <p class="custom-lead">
+              Nuestra tecnología de impresión 3D nos permite adaptar escalas, desarrollar series limitadas para interioristas o diseñar adornos únicos pensados para tu espacio específico.
+            </p>
+            <div class="custom-perks">
+              <div class="perk-item">
+                <span class="perk-bullet">•</span>
+                <div>
+                  <strong>Asesoramiento estético:</strong> Conversamos sobre la paleta de materiales y dimensiones ideales de tu mueble o espacio.
+                </div>
+              </div>
+              <div class="perk-item">
+                <span class="perk-bullet">•</span>
+                <div>
+                  <strong>Prototipado rápido:</strong> Visualización previa antes de la impresión final.
+                </div>
+              </div>
+              <div class="perk-item">
+                <span class="perk-bullet">•</span>
+                <div>
+                  <strong>Atención directa:</strong> Comunicación fluida por WhatsApp con la vendedora y creadora.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="custom-form-card">
+            <h3 class="form-title">Solicitar Consulta o Pedido a Medida</h3>
+            <p class="form-subtitle">Completa el formulario y te responderemos a la brevedad vía WhatsApp.</p>
+            
+            <form id="customOrderForm" class="editorial-form">
+              <div class="form-group">
+                <label for="clientName">Nombre y Apellido</label>
+                <input type="text" id="clientName" name="name" required placeholder="Tu nombre">
+              </div>
+
+              <div class="form-group">
+                <label for="clientPhone">Número de WhatsApp (con código de área)</label>
+                <input type="tel" id="clientPhone" name="phone" required placeholder="Ej: +54 9 11 1234 5678">
+              </div>
+
+              <div class="form-group">
+                <label for="interestType">Pieza de interés</label>
+                <select id="interestType" name="interest">
+                  <option value="Florero Escultural en U">Florero Escultural en U</option>
+                  <option value="Posavasos Orgánicos Pack x4">Posavasos Orgánicos Pack x4</option>
+                  <option value="Dispensador Lena">Dispensador Lena</option>
+                  <option value="Diseño personalizado nuevo">Diseño personalizado desde cero</option>
+                  <option value="Proyecto para interiorismo o regalo corporativo">Proyecto de interiorismo / Gran volumen</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="clientMessage">Detalles del pedido o consulta</label>
+                <textarea id="clientMessage" name="message" rows="3" placeholder="Indícanos colores preferidos, medidas o cualquier consulta..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-full">Enviar Consulta por WhatsApp</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Editorial Footer -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="assets/images/logo-serica.png" alt="SÉRICA" class="footer-logo">
+          <span class="footer-slogan">SÉRICA · Objetos para habitar.</span>
+          <p class="footer-bio">
+            Nacemos desde la búsqueda de la calma, la atemporalidad y el valor de lo cotidiano. Formas orgánicas y texturas serenas para transformar tus espacios.
+          </p>
+        </div>
+
+        <div class="footer-links-group">
+          <h4 class="footer-group-title">Navegación</h4>
+          <a href="#hero">Inicio</a>
+          <a href="#lo-primero">Filosofía</a>
+          <a href="#distincion">Proceso 3D</a>
+          <a href="#coleccion">Colección</a>
+          <a href="#personalizados">Personalizados</a>
+        </div>
+
+        <div class="footer-links-group">
+          <h4 class="footer-group-title">Contacto</h4>
+          <a href="https://www.instagram.com/casa.serica/" target="_blank" rel="noopener noreferrer">Instagram: @casa.serica</a>
+          <a href="#" class="trigger-whatsapp">WhatsApp directo</a>
+          <span>Buenos Aires, Argentina</span>
+          <span>Envíos a todo el país</span>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 CASA SÉRICA · Todos los derechos reservados. Objetos para habitar.</p>
+        <p class="footer-footnote">Diseño editorial web de autor · Fotografías reales de piezas SÉRICA.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL DE COMPRA / ADQUIRIR AHORA -->
+  <div class="modal-backdrop" id="orderModal">
+    <div class="modal-card">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Cerrar modal">&times;</button>
+      
+      <div class="modal-header">
+        <span class="section-kicker">Confirmar Pedido</span>
+        <h3 class="modal-title" id="modalProductTitle">Florero Escultural en U Acanalado</h3>
+        <p class="modal-price" id="modalProductPrice">$22.000 ARS</p>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-product-preview">
+          <img src="assets/images/florero-u.webp" alt="Producto seleccionado" id="modalProductImg" class="modal-preview-img">
+        </div>
+
+        <div class="modal-details-form">
+          <div class="form-group">
+            <label for="orderQuantity">Cantidad:</label>
+            <div class="quantity-control">
+              <button type="button" class="qty-btn" id="qtyMinus">-</button>
+              <input type="number" id="orderQuantity" value="1" min="1" max="20" readonly>
+              <button type="button" class="qty-btn" id="qtyPlus">+</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="buyerName">Tu nombre:</label>
+            <input type="text" id="buyerName" placeholder="Nombre completo" required>
+          </div>
+
+          <div class="form-group">
+            <label for="buyerLocation">Ciudad / Localidad de envío:</label>
+            <input type="text" id="buyerLocation" placeholder="Ej: CABA, Rosario, Córdoba..." required>
+          </div>
+
+          <div class="order-summary-box">
+            <div class="summary-line">
+              <span>Subtotal:</span>
+              <strong id="modalSubtotal">$22.000 ARS</strong>
+            </div>
+            <div class="summary-line text-muted">
+              <span>Envío:</span>
+              <span>A coordinar según localidad</span>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary w-full" id="confirmOrderWhatsApp">
+            Finalizar pedido vía WhatsApp
+          </button>
+          <p class="modal-secure-note">🔒 Serás dirigido al WhatsApp oficial con la vendedora para confirmar stock y método de pago seguro.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING WHATSAPP WIDGET DIRECT TO SELLER -->
+  <div class="whatsapp-widget-container" id="whatsappWidget">
+    <div class="whatsapp-tooltip" id="whatsappTooltip">
+      <div class="tooltip-avatar">
+        <img src="assets/images/logo-serica.png" alt="SÉRICA">
+      </div>
+      <div class="tooltip-text">
+        <strong>Vendedora SÉRICA</strong>
+        <span>En línea · ¿Podemos ayudarte con tu elección?</span>
+      </div>
+      <button class="tooltip-close" id="tooltipClose" aria-label="Cerrar tooltip">&times;</button>
+    </div>
+
+    <button class="whatsapp-float-btn" id="whatsappFloatBtn" aria-label="Contactar por WhatsApp">
+      <!-- Clean SVG WhatsApp icon -->
+      <svg class="whatsapp-icon" viewBox="0 0 32 32" fill="currentColor">
+        <path d="M16.002 0C7.164 0 0 7.164 0 16.003c0 2.825.736 5.58 2.138 8.012L.073 31.927l8.118-2.13c2.35 1.282 5.01 1.956 7.81 1.956 8.837 0 16.002-7.164 16.002-16.003S24.839 0 16.002 0zm0 29.243c-2.45 0-4.85-.644-6.953-1.86l-.497-.29-5.166 1.355 1.378-5.038-.323-.514C3.125 20.69 2.51 18.39 2.51 16.003c0-7.44 6.053-13.493 13.492-13.493 7.44 0 13.493 6.053 13.493 13.493 0 7.44-6.053 13.493-13.493 13.493zm7.41-9.92c-.406-.203-2.404-1.187-2.776-1.323-.373-.135-.644-.203-.915.203-.27.406-1.05 1.323-1.288 1.594-.237.27-.474.305-.88.102-.407-.204-1.716-.633-3.268-2.017-1.208-1.077-2.024-2.408-2.261-2.815-.237-.406-.025-.626.178-.828.183-.182.406-.474.61-.71.203-.238.27-.407.406-.678.136-.27.068-.508-.034-.71-.102-.204-.915-2.204-1.254-3.018-.33-.794-.666-.686-.915-.698l-.78-.013c-.27 0-.711.102-1.084.508-.373.407-1.423 1.39-1.423 3.39 0 2 1.457 3.933 1.66 4.204.204.27 2.868 4.38 6.947 6.14 4.08 1.76 4.08 1.173 4.815 1.104.736-.068 2.405-.983 2.744-1.932.339-.95.339-1.763.237-1.933-.101-.17-.373-.271-.78-.475z"/>
+      </svg>
+      <span class="whatsapp-pulse"></span>
+    </button>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

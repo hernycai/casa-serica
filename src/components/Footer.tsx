@@ -26,7 +26,6 @@ export const Footer: React.FC<FooterProps> = ({ onGeneralWhatsApp }) => {
             <a href="#hero">Inicio</a>
             <a href="#lo-primero">Filosofía</a>
             <a href="#distincion">Proceso 3D</a>
-            <a href="#testimonios">Testimonios</a>
             <a href="#coleccion">Colección</a>
             <a href="#personalizados">Personalizados</a>
           </div>

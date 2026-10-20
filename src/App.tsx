@@ -5,7 +5,6 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { EditorialStatement } from './components/EditorialStatement';
 import { Distinction } from './components/Distinction';
-import { Testimonials } from './components/Testimonials';
 import { Collection } from './components/Collection';
 import { CustomOrders } from './components/CustomOrders';
 import { Footer } from './components/Footer';
@@ -46,7 +45,6 @@ export const App: React.FC = () => {
         <Hero onAcquireClick={handleAcquireClick} />
         <EditorialStatement />
         <Distinction />
-        <Testimonials />
         <Collection
           onSelectProduct={handleSelectProduct}
         />

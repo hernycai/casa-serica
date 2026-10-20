@@ -663,6 +663,143 @@ button, input, select, textarea {
 }
 
 /* ==========================================================================
+   5. TESTIMONIOS & SOCIAL PROOF
+   ========================================================================== */
+.testimonials-section {
+  padding: 8rem 0;
+  background-color: var(--color-sand-card);
+  border-bottom: 1px solid var(--color-stone);
+}
+
+.testimonials-header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 4rem;
+}
+
+.testimonials-subtitle {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin-top: 0.8rem;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.2rem;
+}
+
+.testimonial-card {
+  background-color: var(--color-sand-light);
+  border: 1px solid var(--color-stone);
+  border-radius: var(--radius-sm);
+  padding: 2.4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transition);
+}
+
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-stone-dark);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.05);
+}
+
+.testimonial-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.4rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.testimonial-stars {
+  display: flex;
+  gap: 3px;
+  color: #c48b52;
+  font-size: 1rem;
+  letter-spacing: 2px;
+}
+
+.testimonial-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-green-light);
+  font-weight: 600;
+  background-color: rgba(45, 59, 47, 0.06);
+  padding: 0.2rem 0.55rem;
+  border-radius: 20px;
+}
+
+.verified-check {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.testimonial-quote {
+  font-family: var(--font-serif);
+  font-size: 1.18rem;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-green-primary);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  flex-grow: 1;
+}
+
+.testimonial-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(223, 215, 202, 0.6);
+}
+
+.author-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.author-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.author-location {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.testimonial-product-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.74rem;
+  color: var(--color-terracotta);
+  font-weight: 500;
+  background-color: rgba(171, 93, 66, 0.08);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-sm);
+  align-self: flex-start;
+}
+
+.pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-terracotta);
+}
+
+/* ==========================================================================
    6. CIERRE: LLAMADA A LA ACCIÓN & CATÁLOGO INTEGRADO
    ========================================================================== */
 .closing-section {
@@ -1539,6 +1676,10 @@ button, input, select, textarea {
   transform: translateY(-6px);
 }
 
+.testimonial-card.reveal-on-scroll.is-revealed:hover {
+  transform: translateY(-6px);
+}
+
 .product-editorial-card.reveal-on-scroll.is-revealed:hover {
   transform: translateY(-8px);
 }
@@ -1558,6 +1699,7 @@ button, input, select, textarea {
    ========================================================================== */
 @media (max-width: 1024px) {
   .three-blocks-grid,
+  .testimonials-grid,
   .products-editorial-grid {
     grid-template-columns: 1fr;
     max-width: 620px;

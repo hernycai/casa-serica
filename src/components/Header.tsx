@@ -47,7 +47,10 @@ export const Header: React.FC<HeaderProps> = ({ onAcquireClick }) => {
             Filosofía
           </a>
           <a href="#distincion" className="nav-link">
-            Por qué es distinto
+            Diferencial
+          </a>
+          <a href="#testimonios" className="nav-link">
+            Testimonios
           </a>
           <a href="#coleccion" className="nav-link">
             Colección
@@ -88,6 +91,9 @@ export const Header: React.FC<HeaderProps> = ({ onAcquireClick }) => {
           </a>
           <a href="#distincion" className="mobile-nav-link" onClick={closeMobileMenu}>
             Por qué es distinto
+          </a>
+          <a href="#testimonios" className="mobile-nav-link" onClick={closeMobileMenu}>
+            Testimonios
           </a>
           <a href="#coleccion" className="mobile-nav-link" onClick={closeMobileMenu}>
             Colección de Objetos

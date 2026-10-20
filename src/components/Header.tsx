@@ -55,6 +55,9 @@ export const Header: React.FC<HeaderProps> = ({ onAcquireClick }) => {
           <a href="#personalizados" className="nav-link">
             Personalizados
           </a>
+          <a href="#taller-proceso" className="nav-link">
+            Behind the Scenes
+          </a>
         </nav>
 
         <div className="header-actions">
@@ -94,6 +97,9 @@ export const Header: React.FC<HeaderProps> = ({ onAcquireClick }) => {
           </a>
           <a href="#personalizados" className="mobile-nav-link" onClick={closeMobileMenu}>
             Pedidos a Medida
+          </a>
+          <a href="#taller-proceso" className="mobile-nav-link" onClick={closeMobileMenu}>
+            Behind the Scenes
           </a>
           <button
             type="button"

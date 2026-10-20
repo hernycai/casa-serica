@@ -28,6 +28,7 @@ export const Footer: React.FC<FooterProps> = ({ onGeneralWhatsApp }) => {
             <a href="#distincion">Proceso 3D</a>
             <a href="#coleccion">Colección</a>
             <a href="#personalizados">Personalizados</a>
+            <a href="#taller-proceso">Behind the Scenes</a>
           </div>
 
           <div className="footer-links-group">

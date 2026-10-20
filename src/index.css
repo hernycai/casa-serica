@@ -805,6 +805,172 @@ button, input, select, textarea {
   color: var(--color-terracotta);
 }
 
+.product-pricing-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.2rem;
+}
+
+.product-price-transfer {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.price-transfer-amount {
+  font-family: var(--font-serif);
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--color-terracotta);
+  line-height: 1.1;
+}
+
+.price-transfer-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: rgba(171, 93, 66, 0.12);
+  color: var(--color-terracotta);
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  border: 1px solid rgba(171, 93, 66, 0.2);
+}
+
+.product-price-regular {
+  font-size: 0.84rem;
+  color: var(--color-text-muted);
+}
+
+.regular-price-amount {
+  text-decoration: line-through;
+  opacity: 0.85;
+}
+
+.product-colors-selector {
+  margin: 1.1rem 0 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.colors-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.colors-active-name {
+  color: var(--color-terracotta);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.colors-options-group {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.color-option-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.7rem;
+  background: var(--color-sand-light);
+  border: 1px solid var(--color-stone);
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--color-text-main);
+  transition: var(--transition);
+}
+
+.color-option-btn:hover {
+  border-color: var(--color-stone-dark);
+}
+
+.color-option-btn.is-selected {
+  border-color: var(--color-green-primary);
+  background-color: var(--color-sand-card);
+  box-shadow: 0 0 0 1px var(--color-green-primary);
+  font-weight: 600;
+}
+
+.color-swatch-circle {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.modal-variant-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.payment-method-box {
+  background: var(--color-sand-card);
+  border: 1px solid var(--color-stone);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.payment-method-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 1px solid var(--color-stone);
+  background: var(--color-white);
+  transition: var(--transition);
+}
+
+.payment-method-option:hover {
+  border-color: var(--color-stone-dark);
+}
+
+.payment-method-option.is-selected {
+  background-color: rgba(45, 59, 47, 0.05);
+  border-color: var(--color-green-primary);
+  box-shadow: 0 0 0 1px var(--color-green-primary);
+}
+
+.payment-method-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.84rem;
+  font-weight: 500;
+}
+
+.payment-price-tag {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-green-primary);
+}
+
+.payment-price-tag.is-discount {
+  color: var(--color-terracotta);
+}
+
 .product-desc {
   font-size: 0.9rem;
   color: var(--color-text-muted);

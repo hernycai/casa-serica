@@ -4,23 +4,29 @@ import { formatPrice, createWhatsAppLink } from '../data/products';
 
 interface OrderModalProps {
   product: Product | null;
+  initialColor?: string;
   isOpen: boolean;
   onClose: () => void;
 }
 
 export const OrderModal: React.FC<OrderModalProps> = ({
   product,
+  initialColor,
   isOpen,
   onClose,
 }) => {
   const [quantity, setQuantity] = useState(1);
+  const [selectedColor, setSelectedColor] = useState<string>('');
+  const [paymentMethod, setPaymentMethod] = useState<'transfer' | 'regular'>('transfer');
   const [buyerName, setBuyerName] = useState('');
   const [buyerLocation, setBuyerLocation] = useState('');
 
   // Reset fields when product changes or modal opens
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && product) {
       setQuantity(1);
+      setSelectedColor(initialColor || product.colors[0]?.name || '');
+      setPaymentMethod('transfer');
       setBuyerName('');
       setBuyerLocation('');
       document.body.style.overflow = 'hidden';
@@ -31,7 +37,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isOpen, product]);
+  }, [isOpen, product, initialColor]);
 
   // Handle ESC key
   useEffect(() => {
@@ -49,7 +55,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     return null;
   }
 
-  const subtotal = product.price * quantity;
+  const unitPrice = paymentMethod === 'transfer' ? product.transferPrice : product.price;
+  const subtotal = unitPrice * quantity;
 
   const handleDecrease = () => {
     if (quantity > 1) {
@@ -66,11 +73,17 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   const handleConfirmOrder = () => {
     const name = buyerName.trim() || 'Cliente';
     const location = buyerLocation.trim() || 'A coordinar';
+    const paymentLabel =
+      paymentMethod === 'transfer'
+        ? `Transferencia Bancaria (${product.transferDiscountPercent}% de descuento)`
+        : 'Precio de lista / Otros medios';
 
     const message =
       `Hola CASA SÉRICA! Quisiera adquirir la siguiente pieza:\n\n` +
       `• Producto: *${product.name}*\n` +
+      `• Color seleccionado: *${selectedColor || 'Estándar'}*\n` +
       `• Cantidad: ${quantity}\n` +
+      `• Medio de pago: *${paymentLabel}*\n` +
       `• Total estimado: ${formatPrice(subtotal)}\n\n` +
       `Datos de contacto:\n` +
       `• Nombre: ${name}\n` +
@@ -108,9 +121,19 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           <h3 className="modal-title" id="modalProductTitle">
             {product.name}
           </h3>
-          <p className="modal-price" id="modalProductPrice">
-            {formatPrice(product.price)}
-          </p>
+          <div className="product-pricing-wrap">
+            <div className="product-price-transfer">
+              <span className="price-transfer-amount">
+                {formatPrice(product.transferPrice)}
+              </span>
+              <span className="price-transfer-badge">
+                10% OFF Transferencia
+              </span>
+            </div>
+            <div className="product-price-regular">
+              Precio de lista: {formatPrice(product.price)}
+            </div>
+          </div>
         </div>
 
         <div className="modal-body">
@@ -120,10 +143,87 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               alt={product.name}
               id="modalProductImg"
               className="modal-preview-img"
+              referrerPolicy="no-referrer"
             />
           </div>
 
           <div className="modal-details-form">
+            {/* Color selection */}
+            {product.colors.length > 0 && (
+              <div className="modal-variant-section">
+                <span className="colors-label">
+                  Color:{' '}
+                  <span className="colors-active-name">{selectedColor}</span>
+                </span>
+                <div className="colors-options-group">
+                  {product.colors.map((color) => {
+                    const isSelected = selectedColor === color.name;
+                    return (
+                      <button
+                        key={color.name}
+                        type="button"
+                        className={`color-option-btn ${isSelected ? 'is-selected' : ''}`}
+                        onClick={() => setSelectedColor(color.name)}
+                      >
+                        <span
+                          className="color-swatch-circle"
+                          style={{ backgroundColor: color.hex }}
+                        />
+                        <span>{color.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Payment method selector */}
+            <div className="modal-variant-section">
+              <span className="colors-label">Medio de Pago:</span>
+              <div className="payment-method-box">
+                <div
+                  className={`payment-method-option ${paymentMethod === 'transfer' ? 'is-selected' : ''}`}
+                  onClick={() => setPaymentMethod('transfer')}
+                >
+                  <label className="payment-method-radio">
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="transfer"
+                      checked={paymentMethod === 'transfer'}
+                      onChange={() => setPaymentMethod('transfer')}
+                    />
+                    <span>
+                      <strong>Transferencia Bancaria</strong> (10% OFF)
+                    </span>
+                  </label>
+                  <span className="payment-price-tag is-discount">
+                    {formatPrice(product.transferPrice)} c/u
+                  </span>
+                </div>
+
+                <div
+                  className={`payment-method-option ${paymentMethod === 'regular' ? 'is-selected' : ''}`}
+                  onClick={() => setPaymentMethod('regular')}
+                >
+                  <label className="payment-method-radio">
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="regular"
+                      checked={paymentMethod === 'regular'}
+                      onChange={() => setPaymentMethod('regular')}
+                    />
+                    <span>Precio de lista / Tarjetas</span>
+                  </label>
+                  <span className="payment-price-tag">
+                    {formatPrice(product.price)} c/u
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Quantity control */}
             <div className="form-group">
               <label htmlFor="orderQuantity">Cantidad:</label>
               <div className="quantity-control">
@@ -156,6 +256,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               </div>
             </div>
 
+            {/* Buyer information */}
             <div className="form-group">
               <label htmlFor="buyerName">Tu nombre:</label>
               <input
@@ -180,10 +281,25 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               />
             </div>
 
+            {/* Order summary */}
             <div className="order-summary-box">
               <div className="summary-line">
-                <span>Subtotal:</span>
-                <strong id="modalSubtotal">{formatPrice(subtotal)}</strong>
+                <span>Método:</span>
+                <strong>
+                  {paymentMethod === 'transfer'
+                    ? 'Transferencia (10% OFF aplicado)'
+                    : 'Precio de lista'}
+                </strong>
+              </div>
+              <div className="summary-line">
+                <span>Color:</span>
+                <strong>{selectedColor}</strong>
+              </div>
+              <div className="summary-line">
+                <span>Subtotal ({quantity} un.):</span>
+                <strong id="modalSubtotal" style={{ color: 'var(--color-terracotta)', fontSize: '1.05rem' }}>
+                  {formatPrice(subtotal)}
+                </strong>
               </div>
               <div className="summary-line text-muted">
                 <span>Envío:</span>
@@ -197,10 +313,10 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               id="confirmOrderWhatsApp"
               onClick={handleConfirmOrder}
             >
-              Finalizar pedido vía WhatsApp
+              Finalizar pedido vía WhatsApp · {formatPrice(subtotal)}
             </button>
             <p className="modal-secure-note">
-              🔒 Serás dirigido al WhatsApp oficial con la vendedora para confirmar stock y método de pago seguro.
+              🔒 Serás dirigido al WhatsApp oficial con la vendedora para coordinar datos bancarios, stock y envío protegido.
             </p>
           </div>
         </div>

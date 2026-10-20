@@ -16,7 +16,6 @@ export const Hero: React.FC<HeroProps> = ({ onAcquireClick }) => {
         <div className="hero-overlay"></div>
       </div>
       <div className="hero-content">
-        <div className="hero-badge">Buenos Aires · Impresión 3D de Autor</div>
         <h1 className="hero-brand">CASA SÉRICA</h1>
         <p className="hero-slogan">Objetos para habitar.</p>
         <div className="hero-divider"></div>

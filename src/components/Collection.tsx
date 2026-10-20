@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Product } from '../types';
 import { PRODUCTS, formatPrice } from '../data/products';
 
 interface CollectionProps {
-  onSelectProduct: (product: Product) => void;
+  onSelectProduct: (product: Product, initialColor?: string) => void;
   onGeneralWhatsApp: () => void;
 }
 
@@ -11,6 +11,20 @@ export const Collection: React.FC<CollectionProps> = ({
   onSelectProduct,
   onGeneralWhatsApp,
 }) => {
+  // Track selected color per product ID
+  const [selectedColors, setSelectedColors] = useState<{ [productId: string]: string }>({
+    'florero-u': 'Beige',
+    'posavasos-pack': 'Beige',
+    'dispensador-lena': 'Bambú Natural',
+  });
+
+  const handleColorSelect = (productId: string, colorName: string) => {
+    setSelectedColors((prev) => ({
+      ...prev,
+      [productId]: colorName,
+    }));
+  };
+
   return (
     <section className="closing-section" id="coleccion">
       <div className="container">
@@ -21,56 +35,108 @@ export const Collection: React.FC<CollectionProps> = ({
           <div className="closing-conditions-bar">
             <div className="condition-item">
               <span className="condition-dot"></span>
-              <strong>Piezas desde $14.000 ARS</strong>
+              <strong>Piezas desde $12.600 con Transferencia</strong>
+            </div>
+            <div className="condition-divider"></div>
+            <div className="condition-item">
+              <span className="condition-dot"></span>
+              <strong>10% OFF pagando con Transferencia Bancaria</strong>
             </div>
             <div className="condition-divider"></div>
             <div className="condition-item">
               <span className="condition-dot"></span>
               <strong>Envíos a todo el país</strong>
             </div>
-            <div className="condition-divider"></div>
-            <div className="condition-item">
-              <span className="condition-dot"></span>
-              <strong>Embalaje protegido de autor</strong>
-            </div>
           </div>
         </div>
 
         {/* Grid de Productos Reales */}
         <div className="products-editorial-grid">
-          {PRODUCTS.map((product) => (
-            <article key={product.id} className="product-editorial-card">
-              <div className="product-image-container">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="product-card-img"
-                />
-                <span className="product-badge">{product.badge}</span>
-              </div>
-              <div className="product-info-wrap">
-                <div className="product-header">
-                  <h3 className="product-title">{product.name}</h3>
-                  <span className="product-price">{formatPrice(product.price)}</span>
+          {PRODUCTS.map((product) => {
+            const activeColor = selectedColors[product.id] || product.colors[0]?.name || '';
+
+            return (
+              <article key={product.id} className="product-editorial-card">
+                <div className="product-image-container">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="product-card-img"
+                    referrerPolicy="no-referrer"
+                  />
+                  <span className="product-badge">{product.badge}</span>
                 </div>
-                <p className="product-desc">{product.description}</p>
-                <ul className="product-specs">
-                  {product.specs.map((spec, idx) => (
-                    <li key={idx}>
-                      <span>{spec.label}:</span> {spec.value}
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  type="button"
-                  className="btn btn-primary w-full open-order-btn"
-                  onClick={() => onSelectProduct(product)}
-                >
-                  Adquirir Ahora
-                </button>
-              </div>
-            </article>
-          ))}
+                <div className="product-info-wrap">
+                  <div className="product-header">
+                    <h3 className="product-title">{product.name}</h3>
+
+                    {/* Precios con Transferencia Bancaria */}
+                    <div className="product-pricing-wrap">
+                      <div className="product-price-transfer">
+                        <span className="price-transfer-amount">
+                          {formatPrice(product.transferPrice)}
+                        </span>
+                        <span className="price-transfer-badge">
+                          10% OFF Transferencia
+                        </span>
+                      </div>
+                      <div className="product-price-regular">
+                        Precio de lista:{' '}
+                        <span className="regular-price-amount">
+                          {formatPrice(product.price)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Selector de Variaciones de Color */}
+                  <div className="product-colors-selector">
+                    <span className="colors-label">
+                      Color seleccionado:{' '}
+                      <span className="colors-active-name">{activeColor}</span>
+                    </span>
+                    <div className="colors-options-group">
+                      {product.colors.map((color) => {
+                        const isSelected = activeColor === color.name;
+                        return (
+                          <button
+                            key={color.name}
+                            type="button"
+                            className={`color-option-btn ${isSelected ? 'is-selected' : ''}`}
+                            onClick={() => handleColorSelect(product.id, color.name)}
+                            title={`Seleccionar color ${color.name}`}
+                          >
+                            <span
+                              className="color-swatch-circle"
+                              style={{ backgroundColor: color.hex }}
+                            />
+                            <span>{color.name}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <p className="product-desc">{product.description}</p>
+                  <ul className="product-specs">
+                    {product.specs.map((spec, idx) => (
+                      <li key={idx}>
+                        <span>{spec.label}:</span> {spec.value}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <button
+                    type="button"
+                    className="btn btn-primary w-full open-order-btn"
+                    onClick={() => onSelectProduct(product, activeColor)}
+                  >
+                    Adquirir Ahora · {formatPrice(product.transferPrice)}
+                  </button>
+                </div>
+              </article>
+            );
+          })}
         </div>
 
         {/* Ambientación Editorial */}

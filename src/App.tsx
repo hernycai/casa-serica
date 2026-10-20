@@ -16,12 +16,18 @@ import { createWhatsAppLink } from './data/products';
 
 export const App: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string>('');
 
   const handleAcquireClick = () => {
     const el = document.getElementById('coleccion');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const handleSelectProduct = (product: Product, initialColor?: string) => {
+    setSelectedProduct(product);
+    setSelectedColor(initialColor || product.colors[0]?.name || '');
   };
 
   const handleGeneralWhatsApp = () => {
@@ -41,7 +47,7 @@ export const App: React.FC = () => {
         <Distinction />
         <FullscreenCaption />
         <Collection
-          onSelectProduct={(product) => setSelectedProduct(product)}
+          onSelectProduct={handleSelectProduct}
           onGeneralWhatsApp={handleGeneralWhatsApp}
         />
         <CustomOrders />
@@ -50,6 +56,7 @@ export const App: React.FC = () => {
 
       <OrderModal
         product={selectedProduct}
+        initialColor={selectedColor}
         isOpen={selectedProduct !== null}
         onClose={() => setSelectedProduct(null)}
       />

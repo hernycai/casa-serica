@@ -62,7 +62,18 @@ export const Footer: React.FC<FooterProps> = ({ onGeneralWhatsApp }) => {
 
         <div className="footer-bottom">
           <p>© 2026 CASA SÉRICA · Todos los derechos reservados. Objetos para habitar.</p>
-          <p className="footer-footnote">Diseño editorial web de autor · Fotografías reales de piezas SÉRICA.</p>
+          <p className="footer-footnote">
+            Web diseñada por{' '}
+            <a
+              href="https://hlucianodesign.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'underline', color: 'inherit' }}
+            >
+              HLuciano Design
+            </a>{' '}
+            · Fotografías reales de piezas SÉRICA.
+          </p>
         </div>
       </div>
     </footer>

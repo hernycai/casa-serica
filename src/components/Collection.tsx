@@ -143,7 +143,7 @@ export const Collection: React.FC<CollectionProps> = ({
         <div className="editorial-quote-banner">
           <div className="editorial-banner-content">
             <img
-              src="/assets/images/editorial-ambiente-consola.jpg"
+              src="/assets/aistudio/Captura_de_pantalla_2026-10-20_a_las_11.54.09_8cabf6d0.jpg"
               alt="Ambientación Casa Sérica"
               className="editorial-banner-img"
               referrerPolicy="no-referrer"

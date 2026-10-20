@@ -747,6 +747,35 @@ button, input, select, textarea {
   aspect-ratio: 1 / 1;
   background-color: #ebe7de;
   overflow: hidden;
+  cursor: zoom-in;
+}
+
+.product-zoom-hint {
+  position: absolute;
+  bottom: 0.85rem;
+  right: 0.85rem;
+  background: rgba(20, 26, 21, 0.76);
+  backdrop-filter: blur(8px);
+  color: var(--color-sand-light);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 0.35rem 0.65rem;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+  z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.product-image-container:hover .product-zoom-hint {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .product-card-img {
@@ -1501,6 +1530,143 @@ button, input, select, textarea {
   color: var(--color-text-muted);
   text-align: center;
   line-height: 1.4;
+}
+
+/* ==========================================================================
+   Image Zoom Lightbox Modal
+   ========================================================================== */
+.image-zoom-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 18, 15, 0.92);
+  backdrop-filter: blur(10px);
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: zoomFadeIn 0.25s ease;
+}
+
+@keyframes zoomFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.image-zoom-close-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.25rem;
+  transition: var(--transition);
+  z-index: 10;
+}
+
+.image-zoom-close-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.08);
+}
+
+.image-zoom-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 84vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-zoom-img-wrapper {
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  cursor: zoom-in;
+  position: relative;
+  max-width: min(720px, 86vw);
+  max-height: 72vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #191f1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.image-zoom-img-wrapper.is-magnified {
+  cursor: zoom-out;
+}
+
+.image-zoom-img {
+  max-width: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  user-select: none;
+}
+
+.image-zoom-img.is-magnified {
+  transform: scale(1.85);
+}
+
+.image-zoom-footer {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: min(720px, 86vw);
+  color: var(--color-sand-light);
+  gap: 1rem;
+}
+
+.image-zoom-title-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.image-zoom-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: #ffffff;
+  margin: 0;
+}
+
+.image-zoom-subtitle {
+  font-size: 0.82rem;
+  color: var(--color-stone);
+  margin: 0;
+}
+
+.image-zoom-toggle-btn {
+  font-size: 0.78rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 0.45rem 0.9rem;
+  border-radius: 20px;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.image-zoom-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
 }
 
 /* ==========================================================================

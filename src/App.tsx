@@ -4,9 +4,7 @@ import { AnnouncementBar } from './components/AnnouncementBar';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { EditorialStatement } from './components/EditorialStatement';
-import { FullscreenQuote } from './components/FullscreenQuote';
 import { Distinction } from './components/Distinction';
-import { FullscreenCaption } from './components/FullscreenCaption';
 import { Collection } from './components/Collection';
 import { CustomOrders } from './components/CustomOrders';
 import { Footer } from './components/Footer';
@@ -46,12 +44,9 @@ export const App: React.FC = () => {
       <main>
         <Hero onAcquireClick={handleAcquireClick} />
         <EditorialStatement />
-        <FullscreenQuote />
         <Distinction />
-        <FullscreenCaption />
         <Collection
           onSelectProduct={handleSelectProduct}
-          onGeneralWhatsApp={handleGeneralWhatsApp}
         />
         <CustomOrders />
       </main>

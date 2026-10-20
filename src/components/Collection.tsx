@@ -4,12 +4,10 @@ import { PRODUCTS, formatPrice } from '../data/products';
 
 interface CollectionProps {
   onSelectProduct: (product: Product, initialColor?: string) => void;
-  onGeneralWhatsApp: () => void;
 }
 
 export const Collection: React.FC<CollectionProps> = ({
   onSelectProduct,
-  onGeneralWhatsApp,
 }) => {
   // Track selected color per product ID
   const [selectedColors, setSelectedColors] = useState<{ [productId: string]: string }>({
@@ -143,34 +141,6 @@ export const Collection: React.FC<CollectionProps> = ({
               </article>
             );
           })}
-        </div>
-
-        {/* Ambientación Editorial */}
-        <div className="editorial-quote-banner reveal-on-scroll">
-          <div className="editorial-banner-content">
-            <img
-              src="/assets/aistudio/Captura_de_pantalla_2026-10-20_a_las_11.54.09_8cabf6d0.jpg"
-              alt="Ambientación Casa Sérica"
-              className="editorial-banner-img"
-              referrerPolicy="no-referrer"
-            />
-            <div className="editorial-banner-text">
-              <span className="section-kicker">La Experiencia SÉRICA</span>
-              <h3 className="banner-title">«Curamos y creamos objetos para acompañar tus días.»</h3>
-              <p className="banner-p">
-                Recibe cada pieza con embalaje seguro, listo para obsequiar o incorporar de inmediato en tu hogar.
-              </p>
-              <div className="banner-action">
-                <button
-                  type="button"
-                  className="btn btn-secondary trigger-whatsapp"
-                  onClick={onGeneralWhatsApp}
-                >
-                  Consultar Disponibilidad
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>

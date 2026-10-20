@@ -723,7 +723,7 @@ button, input, select, textarea {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2.2rem;
-  margin-bottom: 6rem;
+  margin-bottom: 0;
 }
 
 .product-editorial-card {
@@ -855,8 +855,9 @@ button, input, select, textarea {
 }
 
 .regular-price-amount {
-  text-decoration: line-through;
-  opacity: 0.85;
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--color-text-main);
 }
 
 .product-colors-selector {
@@ -986,6 +987,7 @@ button, input, select, textarea {
   color: var(--color-text-muted);
   line-height: 1.65;
   margin-bottom: 1.5rem;
+  white-space: pre-line;
 }
 
 .product-specs {

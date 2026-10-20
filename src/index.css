@@ -1476,6 +1476,71 @@ button, input, select, textarea {
 }
 
 /* ==========================================================================
+   Smooth Editorial Scroll Reveal
+   ========================================================================== */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays for sequential content */
+.reveal-delay-1 {
+  transition-delay: 0.12s;
+}
+
+.reveal-delay-2 {
+  transition-delay: 0.22s;
+}
+
+.reveal-delay-3 {
+  transition-delay: 0.32s;
+}
+
+.reveal-delay-4 {
+  transition-delay: 0.42s;
+}
+
+/* Subtle scale fade for atmospheric quotes & captions */
+.reveal-fade-scale {
+  opacity: 0;
+  transform: scale(0.97) translateY(24px);
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-fade-scale.is-revealed {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Preserve card hover effects after being revealed */
+.statement-card.reveal-on-scroll.is-revealed:hover {
+  transform: translateY(-6px);
+}
+
+.product-editorial-card.reveal-on-scroll.is-revealed:hover {
+  transform: translateY(-8px);
+}
+
+/* Respect user accessibility preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll,
+  .reveal-fade-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==========================================================================
    Responsive Adaptations
    ========================================================================== */
 @media (max-width: 1024px) {

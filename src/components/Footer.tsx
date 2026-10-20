@@ -7,7 +7,7 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ onGeneralWhatsApp }) => {
   return (
     <footer className="site-footer">
-      <div className="container footer-container">
+      <div className="container footer-container reveal-on-scroll">
         <div className="footer-top">
           <div className="footer-brand">
             <img

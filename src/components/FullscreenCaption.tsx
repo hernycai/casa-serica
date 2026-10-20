@@ -11,7 +11,7 @@ export const FullscreenCaption: React.FC = () => {
         />
         <div className="fullscreen-overlay"></div>
       </div>
-      <div className="fullscreen-caption-box">
+      <div className="fullscreen-caption-box reveal-on-scroll">
         <span className="caption-tag">Diseño Funcional</span>
         <p className="caption-title">Equilibrio entre materia, proporción y utilidad diaria.</p>
       </div>

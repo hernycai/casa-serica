@@ -13,8 +13,11 @@ import { Footer } from './components/Footer';
 import { OrderModal } from './components/OrderModal';
 import { WhatsAppWidget } from './components/WhatsAppWidget';
 import { createWhatsAppLink } from './data/products';
+import { useScrollReveal } from './hooks/useScrollReveal';
 
 export const App: React.FC = () => {
+  useScrollReveal();
+
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedColor, setSelectedColor] = useState<string>('');
 

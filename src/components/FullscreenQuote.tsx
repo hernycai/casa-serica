@@ -11,7 +11,7 @@ export const FullscreenQuote: React.FC = () => {
         />
         <div className="fullscreen-overlay"></div>
       </div>
-      <div className="fullscreen-quote-box">
+      <div className="fullscreen-quote-box reveal-on-scroll reveal-fade-scale">
         <blockquote className="editorial-quote">
           «Superficies táctiles donde la geometría orgánica se encuentra con la pausa cotidiana.»
         </blockquote>

@@ -41,7 +41,7 @@ export const CustomOrders: React.FC = () => {
     <section className="custom-orders-section" id="personalizados">
       <div className="container">
         <div className="custom-orders-grid">
-          <div className="custom-orders-text">
+          <div className="custom-orders-text reveal-on-scroll">
             <div className="section-kicker">Creaciones Especiales</div>
             <h2 className="custom-heading">¿Buscas una dimensión, color o forma a medida?</h2>
             <p className="custom-lead">
@@ -69,7 +69,7 @@ export const CustomOrders: React.FC = () => {
             </div>
           </div>
 
-          <div className="custom-form-card">
+          <div className="custom-form-card reveal-on-scroll reveal-delay-2">
             <h3 className="form-title">Solicitar Consulta o Pedido a Medida</h3>
             <p className="form-subtitle">Completa el formulario y te responderemos a la brevedad vía WhatsApp.</p>
 

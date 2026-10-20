@@ -29,7 +29,7 @@ export const Collection: React.FC<CollectionProps> = ({
     <section className="closing-section" id="coleccion">
       <div className="container">
         {/* Header del Cierre */}
-        <div className="closing-intro">
+        <div className="closing-intro reveal-on-scroll">
           <div className="section-kicker">Colección Disponible</div>
           <h2 className="closing-heading">Objetos listos para formar parte de tu espacio</h2>
           <div className="closing-conditions-bar">
@@ -52,11 +52,14 @@ export const Collection: React.FC<CollectionProps> = ({
 
         {/* Grid de Productos Reales */}
         <div className="products-editorial-grid">
-          {PRODUCTS.map((product) => {
+          {PRODUCTS.map((product, idx) => {
             const activeColor = selectedColors[product.id] || product.colors[0]?.name || '';
 
             return (
-              <article key={product.id} className="product-editorial-card">
+              <article
+                key={product.id}
+                className={`product-editorial-card reveal-on-scroll reveal-delay-${(idx % 3) + 1}`}
+              >
                 <div className="product-image-container">
                   <img
                     src={product.image}
@@ -140,7 +143,7 @@ export const Collection: React.FC<CollectionProps> = ({
         </div>
 
         {/* Ambientación Editorial */}
-        <div className="editorial-quote-banner">
+        <div className="editorial-quote-banner reveal-on-scroll">
           <div className="editorial-banner-content">
             <img
               src="/assets/aistudio/Captura_de_pantalla_2026-10-20_a_las_11.54.09_8cabf6d0.jpg"

@@ -7,7 +7,6 @@ import { EditorialStatement } from './components/EditorialStatement';
 import { Distinction } from './components/Distinction';
 import { Collection } from './components/Collection';
 import { CustomOrders } from './components/CustomOrders';
-import { BehindTheScenes } from './components/BehindTheScenes';
 import { Footer } from './components/Footer';
 import { OrderModal } from './components/OrderModal';
 import { WhatsAppWidget } from './components/WhatsAppWidget';
@@ -50,7 +49,6 @@ export const App: React.FC = () => {
           onSelectProduct={handleSelectProduct}
         />
         <CustomOrders />
-        <BehindTheScenes />
       </main>
       <Footer onGeneralWhatsApp={handleGeneralWhatsApp} />
 

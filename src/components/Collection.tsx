@@ -54,6 +54,8 @@ export const Collection: React.FC<CollectionProps> = ({
         <div className="products-editorial-grid">
           {PRODUCTS.map((product, idx) => {
             const activeColor = selectedColors[product.id] || product.colors[0]?.name || '';
+            const activeColorObj = product.colors.find((c) => c.name === activeColor);
+            const displayImage = activeColorObj?.image || product.image;
 
             return (
               <article
@@ -62,8 +64,9 @@ export const Collection: React.FC<CollectionProps> = ({
               >
                 <div className="product-image-container">
                   <img
-                    src={product.image}
-                    alt={product.name}
+                    key={displayImage}
+                    src={displayImage}
+                    alt={`${product.name} · ${activeColor}`}
                     className="product-card-img"
                     referrerPolicy="no-referrer"
                   />

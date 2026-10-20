@@ -7,6 +7,7 @@ export interface ColorOption {
   name: string;
   hex: string;
   sku?: string;
+  image?: string;
 }
 
 export interface Product {

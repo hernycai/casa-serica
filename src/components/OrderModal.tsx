@@ -139,8 +139,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
         <div className="modal-body">
           <div className="modal-product-preview">
             <img
-              src={product.image}
-              alt={product.name}
+              key={product.colors.find((c) => c.name === selectedColor)?.image || product.image}
+              src={product.colors.find((c) => c.name === selectedColor)?.image || product.image}
+              alt={`${product.name} · ${selectedColor}`}
               id="modalProductImg"
               className="modal-preview-img"
               referrerPolicy="no-referrer"

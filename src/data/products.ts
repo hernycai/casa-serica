@@ -22,10 +22,10 @@ export const PRODUCTS: Product[] = [
     description:
       'Silueta curva con doble abertura y acabado de estrías arquitectónicas. Diseñado para sostener ramas secas o presentarse como una escultura autónoma sobre consolas y mesas de centro.',
     colors: [
-      { name: 'Beige', hex: '#D8CAB8', sku: 'SER-ESC-BEI-001' },
-      { name: 'Blanco', hex: '#F5F4F0', sku: 'SER-ESC-BLA-001' },
-      { name: 'Marrón', hex: '#5A3E2B', sku: 'SER-ESC-MAR-001' },
-      { name: 'Negro', hex: '#1F2120', sku: 'SER-ESC-NEG-001' },
+      { name: 'Beige', hex: '#D8CAB8', sku: 'SER-ESC-BEI-001', image: '/assets/images/florero-u-beige.webp' },
+      { name: 'Blanco', hex: '#F5F4F0', sku: 'SER-ESC-BLA-001', image: '/assets/images/florero-u-blanco.webp' },
+      { name: 'Marrón', hex: '#5A3E2B', sku: 'SER-ESC-MAR-001', image: '/assets/images/florero-u-marron.webp' },
+      { name: 'Negro', hex: '#1F2120', sku: 'SER-ESC-NEG-001', image: '/assets/images/florero-u-negro.webp' },
     ],
     specs: [
       { label: 'Acabado', value: 'Mate sedoso mineral' },
@@ -39,15 +39,15 @@ export const PRODUCTS: Product[] = [
     price: 14000,
     transferPrice: 12600,
     transferDiscountPercent: 10,
-    image: '/assets/images/posavasos-pack.webp',
+    image: '/assets/images/posavasos-pack-beige.webp',
     badge: 'Set de 4 Unidades',
     description:
       'Curvas asimétricas inspiradas en guijarros de río, con acanalado central que recoge la condensación y protege tus mesas de madera o piedra.',
     colors: [
-      { name: 'Beige', hex: '#D8CAB8', sku: 'SER-ORG-BEI-001' },
-      { name: 'Blanco', hex: '#F5F4F0', sku: 'SER-ORG-BLA-001' },
-      { name: 'Marrón', hex: '#5A3E2B', sku: 'SER-ORG-MAR-001' },
-      { name: 'Negro', hex: '#1F2120', sku: 'SER-ORG-NEG-001' },
+      { name: 'Beige', hex: '#D8CAB8', sku: 'SER-ORG-BEI-001', image: '/assets/images/posavasos-pack-beige.webp' },
+      { name: 'Blanco', hex: '#F5F4F0', sku: 'SER-ORG-BLA-001', image: '/assets/images/posavasos-pack-blanco.webp' },
+      { name: 'Marrón', hex: '#5A3E2B', sku: 'SER-ORG-MAR-001', image: '/assets/images/posavasos-pack-marron.webp' },
+      { name: 'Negro', hex: '#1F2120', sku: 'SER-ORG-NEG-001', image: '/assets/images/posavasos-pack-negro.webp' },
     ],
     specs: [
       { label: 'Contenido', value: 'Pack de 4 posavasos' },

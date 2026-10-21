@@ -18,8 +18,11 @@ dist/
 *.sln
 *.sw?
 
-# AI Studio system artifacts
+# AI Studio system artifacts and chat attachments (capturas)
 .aistudio/
+public/assets/aistudio/
+assets/aistudio/
+*Captura*
 
 # OS metadata
 .DS_Store

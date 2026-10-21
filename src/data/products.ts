@@ -1,10 +1,10 @@
 import { Product } from '../types';
 
-// Número de WhatsApp oficial de CASA SÉRICA.
-// Formato internacional para Argentina: 549 + código de área sin el 0 + número sin el 15 (Ej: 54911XXXXXXXX)
+// Número de WhatsApp oficial de CASA SÉRICA: +54 9 11 6706-9462
+// Formato internacional para Argentina: 549 + código de área sin el 0 + número sin el 15
 export const WHATSAPP_PHONE =
   (import.meta.env.VITE_WHATSAPP_PHONE as string | undefined)?.replace(/\D/g, '') ||
-  '5491123456789';
+  '5491167069462';
 
 export const cleanPhoneForWhatsApp = (phone: string): string => {
   return phone.replace(/\D/g, '');

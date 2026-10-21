@@ -5,10 +5,11 @@
    ========================================================================== */
 
 :root {
-  /* Brand Palette (Extraída directamente de las fotos reales e identidad) */
-  --color-green-primary: #2d3b2f;      /* Verde bosque profundo oficial */
-  --color-green-dark: #1e2820;         /* Verde oscuro mineral */
-  --color-green-light: #445647;        /* Verde salvia suave */
+  /* Brand Palette (Actualizada con HEX #607744) */
+  --color-green-primary: #607744;      /* Verde oliva / laurel SÉRICA oficial */
+  --color-green-dark: #374627;         /* Verde oscuro mineral profundo */
+  --color-green-light: #7c965c;        /* Verde oliva suave */
+  --color-green-hover: #4e6236;        /* Tono hover botones */
   --color-sand-light: #f9f7f2;         /* Lino blanco crema cálido */
   --color-sand-base: #f1ede4;          /* Arena suave fondo base */
   --color-sand-card: #f6f3eb;          /* Fondo de tarjetas */
@@ -255,7 +256,7 @@ button, input, select, textarea {
 }
 
 .btn-header:hover {
-  background-color: var(--color-green-dark);
+  background-color: var(--color-green-hover);
 }
 
 .btn-primary {
@@ -265,10 +266,10 @@ button, input, select, textarea {
 }
 
 .btn-primary:hover {
-  background-color: var(--color-green-dark);
-  border-color: var(--color-green-dark);
+  background-color: var(--color-green-hover);
+  border-color: var(--color-green-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(45, 59, 47, 0.18);
+  box-shadow: 0 8px 18px rgba(96, 119, 68, 0.25);
 }
 
 .btn-secondary {
@@ -988,7 +989,7 @@ button, input, select, textarea {
 }
 
 .payment-method-option.is-selected {
-  background-color: rgba(45, 59, 47, 0.05);
+  background-color: rgba(96, 119, 68, 0.08);
   border-color: var(--color-green-primary);
   box-shadow: 0 0 0 1px var(--color-green-primary);
 }
@@ -1191,7 +1192,7 @@ button, input, select, textarea {
 .form-group textarea:focus {
   outline: none;
   border-color: var(--color-green-primary);
-  box-shadow: 0 0 0 3px rgba(45, 59, 47, 0.12);
+  box-shadow: 0 0 0 3px rgba(96, 119, 68, 0.16);
 }
 
 /* ==========================================================================
@@ -1201,6 +1202,7 @@ button, input, select, textarea {
   background-color: var(--color-green-dark);
   color: var(--color-sand-light);
   padding: 3rem 0 1.75rem;
+  border-top: 2px solid var(--color-green-primary);
 }
 
 .footer-container {

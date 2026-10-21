@@ -1,13 +1,22 @@
 import { Product } from '../types';
 
-export const WHATSAPP_PHONE = '5491123456789';
+// Número de WhatsApp oficial de CASA SÉRICA.
+// Formato internacional para Argentina: 549 + código de área sin el 0 + número sin el 15 (Ej: 54911XXXXXXXX)
+export const WHATSAPP_PHONE =
+  (import.meta.env.VITE_WHATSAPP_PHONE as string | undefined)?.replace(/\D/g, '') ||
+  '5491123456789';
+
+export const cleanPhoneForWhatsApp = (phone: string): string => {
+  return phone.replace(/\D/g, '');
+};
 
 export const formatPrice = (amount: number): string => {
   return '$' + amount.toLocaleString('es-AR') + ' ARS';
 };
 
-export const createWhatsAppLink = (message: string): string => {
-  return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
+export const createWhatsAppLink = (message: string, customPhone?: string): string => {
+  const phone = cleanPhoneForWhatsApp(customPhone || WHATSAPP_PHONE);
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 };
 
 export const PRODUCTS: Product[] = [

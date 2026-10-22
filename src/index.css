@@ -275,6 +275,28 @@ button, input, select, textarea {
   box-shadow: 0 8px 18px rgba(96, 119, 68, 0.25);
 }
 
+.btn-mercadopago {
+  background-color: #009ee3;
+  color: #ffffff;
+  border-color: #009ee3;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-mercadopago:hover:not(:disabled) {
+  background-color: #0081ba;
+  border-color: #0081ba;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 158, 227, 0.3);
+}
+
+.btn-mercadopago:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
 .btn-secondary {
   background-color: transparent;
   color: var(--color-sand-light);

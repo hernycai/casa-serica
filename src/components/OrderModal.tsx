@@ -2,6 +2,55 @@ import React, { useState, useEffect } from 'react';
 import { Product } from '../types';
 import { formatPrice, createWhatsAppLink } from '../data/products';
 
+export interface ShippingData {
+  fullName: string;      // Nombre y apellido (obligatorio)
+  province: string;      // Provincia (obligatorio)
+  city: string;          // Ciudad (obligatorio)
+  street: string;        // Calle (obligatorio)
+  streetNumber: string;  // Número (obligatorio)
+  floor: string;         // Piso (opcional)
+  apartment: string;     // Depto (opcional)
+  postalCode: string;    // Código Postal (obligatorio)
+}
+
+const INITIAL_SHIPPING: ShippingData = {
+  fullName: '',
+  province: '',
+  city: '',
+  street: '',
+  streetNumber: '',
+  floor: '',
+  apartment: '',
+  postalCode: '',
+};
+
+const ARGENTINE_PROVINCES = [
+  'Ciudad Autónoma de Buenos Aires (CABA)',
+  'Buenos Aires',
+  'Catamarca',
+  'Chaco',
+  'Chubut',
+  'Córdoba',
+  'Corrientes',
+  'Entre Ríos',
+  'Formosa',
+  'Jujuy',
+  'La Pampa',
+  'La Rioja',
+  'Mendoza',
+  'Misiones',
+  'Neuquén',
+  'Río Negro',
+  'Salta',
+  'San Juan',
+  'San Luis',
+  'Santa Cruz',
+  'Santa Fe',
+  'Santiago del Estero',
+  'Tierra del Fuego',
+  'Tucumán',
+];
+
 interface OrderModalProps {
   product: Product | null;
   initialColor?: string;
@@ -18,8 +67,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState<string>('');
   const [paymentMethod, setPaymentMethod] = useState<'transfer' | 'mercadopago'>('transfer');
-  const [buyerName, setBuyerName] = useState('');
-  const [buyerLocation, setBuyerLocation] = useState('');
+  const [shipping, setShipping] = useState<ShippingData>(INITIAL_SHIPPING);
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof ShippingData, string>>>({});
+  const [validationMsg, setValidationMsg] = useState<string | null>(null);
   const [isLoadingMp, setIsLoadingMp] = useState(false);
   const [mpError, setMpError] = useState<string | null>(null);
 
@@ -29,8 +79,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
       setQuantity(1);
       setSelectedColor(initialColor || product.colors[0]?.name || '');
       setPaymentMethod('transfer');
-      setBuyerName('');
-      setBuyerLocation('');
+      setShipping(INITIAL_SHIPPING);
+      setFieldErrors({});
+      setValidationMsg(null);
       setIsLoadingMp(false);
       setMpError(null);
       document.body.style.overflow = 'hidden';
@@ -75,21 +126,92 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     }
   };
 
+  const handleShippingChange = (field: keyof ShippingData, value: string) => {
+    setShipping((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+
+    // Limpiar error al escribir
+    if (fieldErrors[field]) {
+      setFieldErrors((prev) => {
+        const updated = { ...prev };
+        delete updated[field];
+        return updated;
+      });
+    }
+
+    if (validationMsg) {
+      setValidationMsg(null);
+    }
+  };
+
+  // Validación estricta: ningún campo puede dejarse en blanco, salvo piso y depto
+  const validateShippingForm = (): boolean => {
+    const errors: Partial<Record<keyof ShippingData, string>> = {};
+
+    if (!shipping.fullName.trim()) {
+      errors.fullName = 'Ingresá tu nombre y apellido';
+    }
+    if (!shipping.province.trim()) {
+      errors.province = 'Seleccioná la provincia';
+    }
+    if (!shipping.city.trim()) {
+      errors.city = 'Ingresá tu ciudad o localidad';
+    }
+    if (!shipping.street.trim()) {
+      errors.street = 'Ingresá la calle o avenida';
+    }
+    if (!shipping.streetNumber.trim()) {
+      errors.streetNumber = 'Ingresá el número / altura';
+    }
+    if (!shipping.postalCode.trim()) {
+      errors.postalCode = 'Ingresá el código postal';
+    }
+
+    // floor y apartment son explícitamente OPCIONALES ("salvo piso y depto")
+
+    setFieldErrors(errors);
+
+    if (Object.keys(errors).length > 0) {
+      setValidationMsg('Por favor completá todos los campos obligatorios (*) de envío para continuar.');
+      return false;
+    }
+
+    setValidationMsg(null);
+    return true;
+  };
+
   // Flujo 1: Transferencia Bancaria (10% OFF) -> Coordinación y pago por WhatsApp
   const handleConfirmWhatsApp = () => {
-    const name = buyerName.trim() || 'Cliente';
-    const location = buyerLocation.trim() || 'A coordinar';
+    if (!validateShippingForm()) {
+      return;
+    }
+
+    const aptInfo = [
+      shipping.floor.trim() ? `Piso ${shipping.floor.trim()}` : '',
+      shipping.apartment.trim() ? `Depto ${shipping.apartment.trim()}` : '',
+    ]
+      .filter(Boolean)
+      .join(' - ');
+
+    const fullStreetAddress = `${shipping.street.trim()} ${shipping.streetNumber.trim()}${
+      aptInfo ? ` (${aptInfo})` : ''
+    }`;
 
     const message =
       `Hola CASA SÉRICA! Quisiera adquirir la siguiente pieza abonando con *Transferencia Bancaria* (10% OFF exclusivo):\n\n` +
       `• Pieza: *${product.name}*\n` +
       `• Color: *${selectedColor || 'Estándar'}*\n` +
       `• Cantidad: ${quantity}\n` +
-      `• Precio unitario: ${formatPrice(product.transferPrice)} (10% OFF)\n` +
+      `• Precio unitario: ${formatPrice(product.transferPrice)} (10% OFF aplicado)\n` +
       `• Subtotal a transferir: *${formatPrice(subtotal)}*\n\n` +
-      `Mis datos:\n` +
-      `• Nombre: ${name}\n` +
-      `• Destino de envío: ${location}\n\n` +
+      `📦 *Datos completos de envío:*\n` +
+      `• Destinatario: ${shipping.fullName.trim()}\n` +
+      `• Dirección: ${fullStreetAddress}\n` +
+      `• Localidad: ${shipping.city.trim()}\n` +
+      `• Provincia: ${shipping.province.trim()}\n` +
+      `• Código Postal: ${shipping.postalCode.trim()}\n\n` +
       `¿Me facilitan el CBU / Alias para realizar la transferencia bancaria? Muchas gracias.`;
 
     const waUrl = createWhatsAppLink(message);
@@ -99,6 +221,10 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
   // Flujo 2: Mercado Pago Checkout Pro -> Cobro directo a PRECIO DE LISTA
   const handleMercadoPagoPay = async () => {
+    if (!validateShippingForm()) {
+      return;
+    }
+
     setIsLoadingMp(true);
     setMpError(null);
 
@@ -112,8 +238,16 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           productId: product.id,
           quantity,
           color: selectedColor,
-          buyerName: buyerName.trim() || 'Cliente CASA SÉRICA',
-          buyerLocation: buyerLocation.trim() || 'Envío a coordinar',
+          shipping: {
+            fullName: shipping.fullName.trim(),
+            province: shipping.province.trim(),
+            city: shipping.city.trim(),
+            street: shipping.street.trim(),
+            streetNumber: shipping.streetNumber.trim(),
+            floor: shipping.floor.trim(),
+            apartment: shipping.apartment.trim(),
+            postalCode: shipping.postalCode.trim(),
+          },
         }),
       });
 
@@ -138,6 +272,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     }
   };
 
+  const selectedColorObj = product.colors.find((c) => c.name === selectedColor);
+  const activeImage = selectedColorObj?.image || product.image;
+
   return (
     <div
       className={`modal-backdrop ${isOpen ? 'is-active' : ''}`}
@@ -151,75 +288,122 @@ export const OrderModal: React.FC<OrderModalProps> = ({
       <div className="modal-card">
         <button
           type="button"
-          className="modal-close-btn"
-          id="modalCloseBtn"
-          aria-label="Cerrar modal"
+          className="modal-close"
+          id="closeModalBtn"
           onClick={onClose}
+          aria-label="Cerrar ventana de compra"
         >
           &times;
         </button>
 
         <div className="modal-header">
-          <span className="section-kicker">Confirmar Pedido</span>
-          <h3 className="modal-title" id="modalProductTitle">
-            {product.name}
-          </h3>
-          <div className="product-pricing-wrap">
-            <div className="product-price-transfer">
-              <span className="price-transfer-amount">
-                {formatPrice(product.transferPrice)}
-              </span>
-              <span className="price-transfer-badge">
-                10% OFF Transferencia
-              </span>
-            </div>
-            <div className="product-price-regular">
-              Precio de lista: {formatPrice(product.price)}
-            </div>
-          </div>
+          <span className="modal-kicker">CASA SÉRICA · Compra Directa</span>
+          <h3 className="modal-product-title">{product.name}</h3>
         </div>
 
-        <div className="modal-body">
-          <div className="modal-product-preview">
-            <img
-              key={product.colors.find((c) => c.name === selectedColor)?.image || product.image}
-              src={product.colors.find((c) => c.name === selectedColor)?.image || product.image}
-              alt={`${product.name} · ${selectedColor}`}
-              id="modalProductImg"
-              className="modal-preview-img"
-              referrerPolicy="no-referrer"
-            />
+        <div className="modal-grid">
+          {/* Column 1: Image & Features */}
+          <div className="modal-image-col">
+            <div className="modal-image-wrap">
+              <img
+                src={activeImage}
+                alt={`${product.name} - ${selectedColor}`}
+                className="modal-product-img"
+              />
+              <span className="modal-badge">{product.badge}</span>
+            </div>
+
+            <div className="modal-perks-list">
+              <div className="modal-perk">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                <span>Fabricación 3D sustentable y control de calidad individual</span>
+              </div>
+              <div className="modal-perk">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="1" y="3" width="15" height="13" />
+                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                  <circle cx="5.5" cy="18.5" r="2.5" />
+                  <circle cx="18.5" cy="18.5" r="2.5" />
+                </svg>
+                <span>Envíos a todo el país con embalaje protector reforzado</span>
+              </div>
+              <div className="modal-perk">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+                <span>Atención y asesoramiento personalizado posventa</span>
+              </div>
+            </div>
           </div>
 
-          <div className="modal-details-form">
-            {/* Color selection */}
+          {/* Column 2: Order configuration & shipping */}
+          <div className="modal-form-col">
+            {/* Color selector */}
             {product.colors.length > 0 && (
               <div className="modal-variant-section">
                 <span className="colors-label">
-                  Color:{' '}
-                  <span className="colors-active-name">{selectedColor}</span>
+                  Tono seleccionado: <strong>{selectedColor}</strong>
                 </span>
-                <div className="colors-options-group">
+                <div className="modal-color-options">
                   {product.colors.map((color) => {
                     const isSelected = selectedColor === color.name;
                     return (
                       <button
-                        key={color.name}
+                        key={color.sku}
                         type="button"
-                        className={`color-option-btn ${isSelected ? 'is-selected' : ''}`}
+                        className={`modal-color-btn ${isSelected ? 'is-active' : ''}`}
                         onClick={() => setSelectedColor(color.name)}
+                        title={`Elegir ${color.name}`}
                       >
                         <span
-                          className="color-swatch-circle"
-                          style={{ backgroundColor: color.hex }}
+                          className="modal-swatch"
+                          style={{
+                            backgroundColor: color.hex,
+                            border: color.name === 'Blanco' ? '1px solid #ccc' : undefined,
+                          }}
                         />
-                        <span>{color.name}</span>
+                        <span className="modal-color-name">{color.name}</span>
                       </button>
                     );
                   })}
                 </div>
               </div>
             )}
+
+            {/* Quantity control */}
+            <div className="form-group">
+              <label htmlFor="orderQuantity">Cantidad:</label>
+              <div className="quantity-control">
+                <button
+                  type="button"
+                  className="qty-btn"
+                  id="qtyMinus"
+                  onClick={handleDecrease}
+                  aria-label="Reducir cantidad"
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  id="orderQuantity"
+                  value={quantity}
+                  min={1}
+                  max={20}
+                  readOnly
+                />
+                <button
+                  type="button"
+                  className="qty-btn"
+                  id="qtyPlus"
+                  onClick={handleIncrease}
+                  aria-label="Aumentar cantidad"
+                >
+                  +
+                </button>
+              </div>
+            </div>
 
             {/* Payment method selector */}
             <div className="modal-variant-section">
@@ -277,62 +461,167 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               </div>
             </div>
 
-            {/* Quantity control */}
-            <div className="form-group">
-              <label htmlFor="orderQuantity">Cantidad:</label>
-              <div className="quantity-control">
-                <button
-                  type="button"
-                  className="qty-btn"
-                  id="qtyMinus"
-                  onClick={handleDecrease}
-                  aria-label="Reducir cantidad"
-                >
-                  -
-                </button>
-                <input
-                  type="number"
-                  id="orderQuantity"
-                  value={quantity}
-                  min={1}
-                  max={20}
-                  readOnly
-                />
-                <button
-                  type="button"
-                  className="qty-btn"
-                  id="qtyPlus"
-                  onClick={handleIncrease}
-                  aria-label="Aumentar cantidad"
-                >
-                  +
-                </button>
+            {/* SECCIÓN DATOS COMPLETOS DE ENVÍO */}
+            <div className="modal-shipping-section">
+              <div className="shipping-section-header">
+                <span className="shipping-section-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                  Datos Completos de Envío
+                </span>
+                <span className="shipping-required-notice">
+                  * Campos obligatorios (Piso y Depto son opcionales)
+                </span>
               </div>
-            </div>
 
-            {/* Buyer information */}
-            <div className="form-group">
-              <label htmlFor="buyerName">Tu nombre:</label>
-              <input
-                type="text"
-                id="buyerName"
-                placeholder="Nombre completo"
-                value={buyerName}
-                onChange={(e) => setBuyerName(e.target.value)}
-                required
-              />
-            </div>
+              {/* Fila 1: Nombre y Apellido */}
+              <div className="form-group">
+                <label htmlFor="shippingFullName">
+                  Nombre y Apellido <span className="req-star">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="shippingFullName"
+                  placeholder="Ej: Sofía Gómez"
+                  value={shipping.fullName}
+                  onChange={(e) => handleShippingChange('fullName', e.target.value)}
+                  className={fieldErrors.fullName ? 'has-error' : ''}
+                  autoComplete="name"
+                />
+                {fieldErrors.fullName && (
+                  <span className="form-field-error">{fieldErrors.fullName}</span>
+                )}
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="buyerLocation">Ciudad / Localidad de envío:</label>
-              <input
-                type="text"
-                id="buyerLocation"
-                placeholder="Ej: CABA, Rosario, Córdoba..."
-                value={buyerLocation}
-                onChange={(e) => setBuyerLocation(e.target.value)}
-                required
-              />
+              {/* Fila 2: Provincia y Ciudad */}
+              <div className="form-row-2">
+                <div className="form-group">
+                  <label htmlFor="shippingProvince">
+                    Provincia <span className="req-star">*</span>
+                  </label>
+                  <select
+                    id="shippingProvince"
+                    value={shipping.province}
+                    onChange={(e) => handleShippingChange('province', e.target.value)}
+                    className={fieldErrors.province ? 'has-error' : ''}
+                  >
+                    <option value="">Seleccionar provincia...</option>
+                    {ARGENTINE_PROVINCES.map((prov) => (
+                      <option key={prov} value={prov}>
+                        {prov}
+                      </option>
+                    ))}
+                  </select>
+                  {fieldErrors.province && (
+                    <span className="form-field-error">{fieldErrors.province}</span>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="shippingCity">
+                    Ciudad / Localidad <span className="req-star">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="shippingCity"
+                    placeholder="Ej: San Isidro, Rosario, La Plata"
+                    value={shipping.city}
+                    onChange={(e) => handleShippingChange('city', e.target.value)}
+                    className={fieldErrors.city ? 'has-error' : ''}
+                    autoComplete="address-level2"
+                  />
+                  {fieldErrors.city && (
+                    <span className="form-field-error">{fieldErrors.city}</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Fila 3: Calle y Número */}
+              <div className="form-row-2">
+                <div className="form-group" style={{ flex: 2 }}>
+                  <label htmlFor="shippingStreet">
+                    Calle / Avenida <span className="req-star">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="shippingStreet"
+                    placeholder="Ej: Av. Santa Fe"
+                    value={shipping.street}
+                    onChange={(e) => handleShippingChange('street', e.target.value)}
+                    className={fieldErrors.street ? 'has-error' : ''}
+                    autoComplete="address-line1"
+                  />
+                  {fieldErrors.street && (
+                    <span className="form-field-error">{fieldErrors.street}</span>
+                  )}
+                </div>
+
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label htmlFor="shippingNumber">
+                    Número / Altura <span className="req-star">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="shippingNumber"
+                    placeholder="Ej: 1420"
+                    value={shipping.streetNumber}
+                    onChange={(e) => handleShippingChange('streetNumber', e.target.value)}
+                    className={fieldErrors.streetNumber ? 'has-error' : ''}
+                  />
+                  {fieldErrors.streetNumber && (
+                    <span className="form-field-error">{fieldErrors.streetNumber}</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Fila 4: Piso (opcional), Depto (opcional), Código Postal (obligatorio) */}
+              <div className="form-row-3">
+                <div className="form-group">
+                  <label htmlFor="shippingFloor">
+                    Piso <span className="optional-tag">(opcional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="shippingFloor"
+                    placeholder="Ej: 4"
+                    value={shipping.floor}
+                    onChange={(e) => handleShippingChange('floor', e.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="shippingApartment">
+                    Depto <span className="optional-tag">(opcional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="shippingApartment"
+                    placeholder="Ej: B"
+                    value={shipping.apartment}
+                    onChange={(e) => handleShippingChange('apartment', e.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="shippingPostalCode">
+                    Código Postal <span className="req-star">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="shippingPostalCode"
+                    placeholder="Ej: 1425"
+                    value={shipping.postalCode}
+                    onChange={(e) => handleShippingChange('postalCode', e.target.value)}
+                    className={fieldErrors.postalCode ? 'has-error' : ''}
+                    autoComplete="postal-code"
+                  />
+                  {fieldErrors.postalCode && (
+                    <span className="form-field-error">{fieldErrors.postalCode}</span>
+                  )}
+                </div>
+              </div>
             </div>
 
             {/* Order summary */}
@@ -355,11 +644,41 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   {formatPrice(subtotal)}
                 </strong>
               </div>
-              <div className="summary-line text-muted">
-                <span>Envío:</span>
-                <span>A coordinar según tu localidad</span>
-              </div>
+              {shipping.street && shipping.city ? (
+                <div className="summary-line text-muted" style={{ fontSize: '0.8rem' }}>
+                  <span>Envío a:</span>
+                  <span>
+                    {shipping.street} {shipping.streetNumber}, {shipping.city} ({shipping.province})
+                  </span>
+                </div>
+              ) : (
+                <div className="summary-line text-muted">
+                  <span>Envío:</span>
+                  <span>A coordinar con embalaje protegido</span>
+                </div>
+              )}
             </div>
+
+            {validationMsg && (
+              <div
+                style={{
+                  backgroundColor: '#fef2f2',
+                  border: '1px solid #ef4444',
+                  color: '#b91c1c',
+                  padding: '0.75rem 1rem',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '0.84rem',
+                  marginBottom: '1rem',
+                  lineHeight: 1.4,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                }}
+              >
+                <span>⚠️</span>
+                <span>{validationMsg}</span>
+              </div>
+            )}
 
             {mpError && (
               <div
@@ -417,7 +736,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   Coordinar Transferencia por WhatsApp · {formatPrice(subtotal)}
                 </button>
                 <p className="modal-secure-note">
-                  🔒 Serás dirigido al WhatsApp oficial para coordinar CBU/Alias, comprobante y envío con 10% OFF.
+                  🔒 Serás dirigido al WhatsApp oficial con tus datos de envío para coordinar CBU/Alias y comprobante con 10% OFF.
                 </p>
               </>
             )}

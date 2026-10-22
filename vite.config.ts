@@ -26,7 +26,7 @@ export default defineConfig(({ mode }) => {
             req.on('end', async () => {
               try {
                 const parsed = JSON.parse(body || '{}');
-                const { productId, quantity = 1, color = '', buyerName = '', buyerLocation = '' } = parsed;
+                const { productId, quantity = 1, color = '', shipping } = parsed;
 
                 const products: Record<string, { name: string; price: number }> = {
                   'florero-u': { name: 'Florero Escultural en U Acanalado', price: 22000 },
@@ -46,36 +46,64 @@ export default defineConfig(({ mode }) => {
                 const candidate = process.env.MERCADOPAGO_ACCESS_TOKEN || env.MERCADOPAGO_ACCESS_TOKEN || env.VITE_MERCADOPAGO_ACCESS_TOKEN;
                 const accessToken = candidate && candidate.length > 50 ? candidate : defaultToken;
 
+                const buyerName = shipping?.fullName?.trim() || 'Cliente CASA SÉRICA';
+                const fullStreet = shipping?.street?.trim() || '';
+                const streetNum = Number(shipping?.streetNumber) || null;
+                const zip = shipping?.postalCode?.trim() || '';
+                const city = shipping?.city?.trim() || '';
+                const prov = shipping?.province?.trim() || '';
+
+                const preferencePayload: Record<string, any> = {
+                  items: [
+                    {
+                      id: productId,
+                      title: `${product.name}${color ? ` (${color})` : ''} - CASA SERICA`,
+                      description: `Pieza de diseño CASA SERICA - Tono: ${color || 'Estándar'}`,
+                      quantity: Math.max(1, Math.min(20, Number(quantity) || 1)),
+                      currency_id: 'ARS',
+                      unit_price: product.price, // PRECIO DE LISTA OFICIAL
+                    },
+                  ],
+                  payer: {
+                    name: buyerName,
+                    address: fullStreet
+                      ? {
+                          street_name: fullStreet,
+                          street_number: streetNum,
+                          zip_code: zip,
+                        }
+                      : undefined,
+                  },
+                  back_urls: {
+                    success: `https://casa-serica.vercel.app/?status=approved&product=${productId}`,
+                    failure: `https://casa-serica.vercel.app/?status=failure`,
+                    pending: `https://casa-serica.vercel.app/?status=pending`,
+                  },
+                  auto_return: 'approved',
+                  statement_descriptor: 'CASA SERICA',
+                };
+
+                if (fullStreet && zip) {
+                  preferencePayload.shipments = {
+                    receiver_address: {
+                      zip_code: zip,
+                      street_name: fullStreet,
+                      street_number: streetNum,
+                      floor: shipping?.floor?.trim() || '',
+                      apartment: shipping?.apartment?.trim() || '',
+                      city_name: city,
+                      state_name: prov,
+                    },
+                  };
+                }
+
                 const mpResponse = await fetch('https://api.mercadopago.com/checkout/preferences', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${accessToken.trim()}`,
                   },
-                  body: JSON.stringify({
-                    items: [
-                      {
-                        id: productId,
-                        title: `${product.name}${color ? ` (${color})` : ''} - CASA SERICA`,
-                        description: `Pieza de diseño CASA SERICA - Tono: ${color || 'Estándar'}`,
-                        quantity: Math.max(1, Math.min(20, Number(quantity) || 1)),
-                        currency_id: 'ARS',
-                        unit_price: product.price, // PRECIO DE LISTA OFICIAL
-                      },
-                    ],
-                    payer: buyerName?.trim()
-                      ? {
-                          name: buyerName.trim(),
-                        }
-                      : undefined,
-                    back_urls: {
-                      success: `https://casa-serica.vercel.app/?status=approved&product=${productId}`,
-                      failure: `https://casa-serica.vercel.app/?status=failure`,
-                      pending: `https://casa-serica.vercel.app/?status=pending`,
-                    },
-                    auto_return: 'approved',
-                    statement_descriptor: 'CASA SERICA',
-                  }),
+                  body: JSON.stringify(preferencePayload),
                 });
 
                 const data = await mpResponse.json();

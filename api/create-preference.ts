@@ -19,7 +19,7 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const { productId, quantity = 1, color = '', buyerName = '', buyerLocation = '' } = req.body || {};
+    const { productId, quantity = 1, color = '', shipping } = req.body || {};
 
     const products: Record<string, { name: string; price: number }> = {
       'florero-u': {
@@ -49,7 +49,14 @@ export default async function handler(req: any, res: any) {
     const proto = req.headers['x-forwarded-proto'] || (host.includes('localhost') ? 'http' : 'https');
     const siteUrl = `${proto}://${host}`;
 
-    const preferencePayload = {
+    const buyerName = shipping?.fullName?.trim() || 'Cliente CASA SÉRICA';
+    const fullStreet = shipping?.street?.trim() || '';
+    const streetNum = Number(shipping?.streetNumber) || null;
+    const zip = shipping?.postalCode?.trim() || '';
+    const city = shipping?.city?.trim() || '';
+    const prov = shipping?.province?.trim() || '';
+
+    const preferencePayload: Record<string, any> = {
       items: [
         {
           id: productId,
@@ -60,11 +67,16 @@ export default async function handler(req: any, res: any) {
           unit_price: product.price, // COBRO ESTRICTO A PRECIO DE LISTA
         },
       ],
-      payer: buyerName?.trim()
-        ? {
-            name: buyerName.trim(),
-          }
-        : undefined,
+      payer: {
+        name: buyerName,
+        address: fullStreet
+          ? {
+              street_name: fullStreet,
+              street_number: streetNum,
+              zip_code: zip,
+            }
+          : undefined,
+      },
       back_urls: {
         success: `${siteUrl}/?status=approved&product=${productId}`,
         failure: `${siteUrl}/?status=failure`,
@@ -73,6 +85,20 @@ export default async function handler(req: any, res: any) {
       auto_return: 'approved',
       statement_descriptor: 'CASA SERICA',
     };
+
+    if (fullStreet && zip) {
+      preferencePayload.shipments = {
+        receiver_address: {
+          zip_code: zip,
+          street_name: fullStreet,
+          street_number: streetNum,
+          floor: shipping?.floor?.trim() || '',
+          apartment: shipping?.apartment?.trim() || '',
+          city_name: city,
+          state_name: prov,
+        },
+      };
+    }
 
     const mpRes = await fetch('https://api.mercadopago.com/checkout/preferences', {
       method: 'POST',

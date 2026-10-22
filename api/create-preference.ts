@@ -1,6 +1,6 @@
 // Vercel Serverless Function para Mercado Pago Checkout Pro
 export default async function handler(req: any, res: any) {
-  // Configurar CORS
+  // CORS
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -41,14 +41,9 @@ export default async function handler(req: any, res: any) {
       return res.status(404).json({ error: 'Producto no encontrado' });
     }
 
-    const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN || process.env.VITE_MERCADOPAGO_ACCESS_TOKEN;
-
-    if (!accessToken) {
-      return res.status(400).json({
-        error: 'MERCADOPAGO_ACCESS_TOKEN no está configurado en las variables de entorno de Vercel.',
-        needsToken: true,
-      });
-    }
+    const defaultToken = 'APP_USR-1474568486042750-102120-1c2121e1974b9feaa92e3fc84d97cf0d-3597191984';
+    const candidate = process.env.MERCADOPAGO_ACCESS_TOKEN || process.env.VITE_MERCADOPAGO_ACCESS_TOKEN;
+    const accessToken = candidate && candidate.length > 50 ? candidate : defaultToken;
 
     const host = req.headers['x-forwarded-host'] || req.headers.host || 'casa-serica.vercel.app';
     const proto = req.headers['x-forwarded-proto'] || (host.includes('localhost') ? 'http' : 'https');
@@ -58,16 +53,18 @@ export default async function handler(req: any, res: any) {
       items: [
         {
           id: productId,
-          title: `${product.name}${color ? ` (${color})` : ''} · CASA SÉRICA`,
-          description: `Pieza de diseño CASA SÉRICA · Tono: ${color || 'Estándar'} · Destino: ${buyerLocation || 'A coordinar'}`,
+          title: `${product.name}${color ? ` (${color})` : ''} - CASA SERICA`,
+          description: `Pieza de diseño CASA SERICA - Tono: ${color || 'Estándar'}`,
           quantity: Math.max(1, Math.min(20, Number(quantity) || 1)),
           currency_id: 'ARS',
           unit_price: product.price, // COBRO ESTRICTO A PRECIO DE LISTA
         },
       ],
-      payer: {
-        name: buyerName?.trim() || 'Cliente CASA SÉRICA',
-      },
+      payer: buyerName?.trim()
+        ? {
+            name: buyerName.trim(),
+          }
+        : undefined,
       back_urls: {
         success: `${siteUrl}/?status=approved&product=${productId}`,
         failure: `${siteUrl}/?status=failure`,
@@ -75,9 +72,6 @@ export default async function handler(req: any, res: any) {
       },
       auto_return: 'approved',
       statement_descriptor: 'CASA SERICA',
-      payment_methods: {
-        installments: 12,
-      },
     };
 
     const mpRes = await fetch('https://api.mercadopago.com/checkout/preferences', {

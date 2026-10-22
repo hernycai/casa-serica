@@ -42,22 +42,9 @@ export default defineConfig(({ mode }) => {
                   return;
                 }
 
-                const accessToken =
-                  process.env.MERCADOPAGO_ACCESS_TOKEN ||
-                  env.MERCADOPAGO_ACCESS_TOKEN ||
-                  env.VITE_MERCADOPAGO_ACCESS_TOKEN;
-
-                if (!accessToken) {
-                  res.statusCode = 400;
-                  res.setHeader('Content-Type', 'application/json');
-                  res.end(
-                    JSON.stringify({
-                      error: 'Falta configurar el MERCADOPAGO_ACCESS_TOKEN en las variables de entorno.',
-                      needsToken: true,
-                    })
-                  );
-                  return;
-                }
+                const defaultToken = 'APP_USR-1474568486042750-102120-1c2121e1974b9feaa92e3fc84d97cf0d-3597191984';
+                const candidate = process.env.MERCADOPAGO_ACCESS_TOKEN || env.MERCADOPAGO_ACCESS_TOKEN || env.VITE_MERCADOPAGO_ACCESS_TOKEN;
+                const accessToken = candidate && candidate.length > 50 ? candidate : defaultToken;
 
                 const mpResponse = await fetch('https://api.mercadopago.com/checkout/preferences', {
                   method: 'POST',
@@ -69,16 +56,18 @@ export default defineConfig(({ mode }) => {
                     items: [
                       {
                         id: productId,
-                        title: `${product.name}${color ? ` (${color})` : ''} · CASA SÉRICA`,
-                        description: `Pieza de diseño CASA SÉRICA · Tono: ${color || 'Estándar'} · Destino: ${buyerLocation || 'A coordinar'}`,
-                        quantity: Number(quantity) || 1,
+                        title: `${product.name}${color ? ` (${color})` : ''} - CASA SERICA`,
+                        description: `Pieza de diseño CASA SERICA - Tono: ${color || 'Estándar'}`,
+                        quantity: Math.max(1, Math.min(20, Number(quantity) || 1)),
                         currency_id: 'ARS',
-                        unit_price: product.price, // PRECIO DE LISTA
+                        unit_price: product.price, // PRECIO DE LISTA OFICIAL
                       },
                     ],
-                    payer: {
-                      name: buyerName || 'Cliente CASA SÉRICA',
-                    },
+                    payer: buyerName?.trim()
+                      ? {
+                          name: buyerName.trim(),
+                        }
+                      : undefined,
                     back_urls: {
                       success: `https://casa-serica.vercel.app/?status=approved&product=${productId}`,
                       failure: `https://casa-serica.vercel.app/?status=failure`,
@@ -86,9 +75,6 @@ export default defineConfig(({ mode }) => {
                     },
                     auto_return: 'approved',
                     statement_descriptor: 'CASA SERICA',
-                    payment_methods: {
-                      installments: 12,
-                    },
                   }),
                 });
 

@@ -132,7 +132,6 @@ export const OrderModal: React.FC<OrderModalProps> = ({
       [field]: value,
     }));
 
-    // Limpiar error al escribir
     if (fieldErrors[field]) {
       setFieldErrors((prev) => {
         const updated = { ...prev };
@@ -261,7 +260,6 @@ export const OrderModal: React.FC<OrderModalProps> = ({
       }
 
       if (data.init_point) {
-        // Redirigir a Mercado Pago Checkout Pro oficial
         window.location.href = data.init_point;
       } else {
         throw new Error('No se recibió la URL de pago de Mercado Pago');
@@ -288,83 +286,74 @@ export const OrderModal: React.FC<OrderModalProps> = ({
       <div className="modal-card">
         <button
           type="button"
-          className="modal-close"
-          id="closeModalBtn"
+          className="modal-close-btn"
+          id="modalCloseBtn"
           onClick={onClose}
-          aria-label="Cerrar ventana de compra"
+          aria-label="Cerrar modal"
         >
           &times;
         </button>
 
         <div className="modal-header">
-          <span className="modal-kicker">CASA SÉRICA · Compra Directa</span>
-          <h3 className="modal-product-title">{product.name}</h3>
-        </div>
-
-        <div className="modal-grid">
-          {/* Column 1: Image & Features */}
-          <div className="modal-image-col">
-            <div className="modal-image-wrap">
-              <img
-                src={activeImage}
-                alt={`${product.name} - ${selectedColor}`}
-                className="modal-product-img"
-              />
-              <span className="modal-badge">{product.badge}</span>
+          <span className="section-kicker">Confirmar Pedido</span>
+          <h3 className="modal-title" id="modalProductTitle">
+            {product.name}
+          </h3>
+          <div className="product-pricing-wrap">
+            <div className="product-price-transfer">
+              <span className="price-transfer-amount">
+                {formatPrice(product.transferPrice)}
+              </span>
+              <span className="price-transfer-badge">
+                10% OFF Transferencia
+              </span>
             </div>
-
-            <div className="modal-perks-list">
-              <div className="modal-perk">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                </svg>
-                <span>Fabricación 3D sustentable y control de calidad individual</span>
-              </div>
-              <div className="modal-perk">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="1" y="3" width="15" height="13" />
-                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-                  <circle cx="5.5" cy="18.5" r="2.5" />
-                  <circle cx="18.5" cy="18.5" r="2.5" />
-                </svg>
-                <span>Envíos a todo el país con embalaje protector reforzado</span>
-              </div>
-              <div className="modal-perk">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                </svg>
-                <span>Atención y asesoramiento personalizado posventa</span>
-              </div>
+            <div className="product-price-regular">
+              Precio de lista: {formatPrice(product.price)}
             </div>
           </div>
+        </div>
 
-          {/* Column 2: Order configuration & shipping */}
-          <div className="modal-form-col">
-            {/* Color selector */}
+        <div className="modal-body">
+          {/* Vista previa de la fotografía real del producto */}
+          <div className="modal-product-preview">
+            <img
+              key={activeImage}
+              src={activeImage}
+              alt={`${product.name} · ${selectedColor}`}
+              id="modalProductImg"
+              className="modal-preview-img"
+              referrerPolicy="no-referrer"
+            />
+            {product.badge && <span className="modal-badge-tag">{product.badge}</span>}
+          </div>
+
+          <div className="modal-details-form">
+            {/* Color selection */}
             {product.colors.length > 0 && (
               <div className="modal-variant-section">
                 <span className="colors-label">
-                  Tono seleccionado: <strong>{selectedColor}</strong>
+                  Color:{' '}
+                  <span className="colors-active-name">{selectedColor}</span>
                 </span>
-                <div className="modal-color-options">
+                <div className="colors-options-group">
                   {product.colors.map((color) => {
                     const isSelected = selectedColor === color.name;
                     return (
                       <button
-                        key={color.sku}
+                        key={color.name}
                         type="button"
-                        className={`modal-color-btn ${isSelected ? 'is-active' : ''}`}
+                        className={`color-option-btn ${isSelected ? 'is-selected' : ''}`}
                         onClick={() => setSelectedColor(color.name)}
-                        title={`Elegir ${color.name}`}
                       >
                         <span
-                          className="modal-swatch"
+                          className="color-swatch-circle"
                           style={{
                             backgroundColor: color.hex,
-                            border: color.name === 'Blanco' ? '1px solid #ccc' : undefined,
+                            border: color.name === 'Blanco' ? '1px solid #d5cebf' : undefined,
                           }}
                         />
-                        <span className="modal-color-name">{color.name}</span>
+                        <span>{color.name}</span>
                       </button>
                     );
                   })}
@@ -372,7 +361,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               </div>
             )}
 
-            {/* Quantity control */}
+            {/* Cantidad */}
             <div className="form-group">
               <label htmlFor="orderQuantity">Cantidad:</label>
               <div className="quantity-control">
@@ -405,7 +394,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               </div>
             </div>
 
-            {/* Payment method selector */}
+            {/* Selector de medio de pago */}
             <div className="modal-variant-section">
               <span className="colors-label">Elegí tu medio de pago:</span>
               <div className="payment-method-box">
@@ -465,10 +454,6 @@ export const OrderModal: React.FC<OrderModalProps> = ({
             <div className="modal-shipping-section">
               <div className="shipping-section-header">
                 <span className="shipping-section-title">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
                   Datos Completos de Envío
                 </span>
                 <span className="shipping-required-notice">
@@ -526,7 +511,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   <input
                     type="text"
                     id="shippingCity"
-                    placeholder="Ej: San Isidro, Rosario, La Plata"
+                    placeholder="Ej: San Isidro, Rosario, CABA"
                     value={shipping.city}
                     onChange={(e) => handleShippingChange('city', e.target.value)}
                     className={fieldErrors.city ? 'has-error' : ''}
@@ -624,7 +609,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               </div>
             </div>
 
-            {/* Order summary */}
+            {/* Resumen del pedido */}
             <div className="order-summary-box">
               <div className="summary-line">
                 <span>Medio de pago:</span>
@@ -697,7 +682,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               </div>
             )}
 
-            {/* Action Buttons according to chosen payment flow */}
+            {/* Botones de acción */}
             {paymentMethod === 'mercadopago' ? (
               <>
                 <button

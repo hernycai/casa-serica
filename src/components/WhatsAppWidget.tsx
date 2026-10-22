@@ -1,43 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface WhatsAppWidgetProps {
   onOpenWhatsApp: () => void;
 }
 
 export const WhatsAppWidget: React.FC<WhatsAppWidgetProps> = ({ onOpenWhatsApp }) => {
-  const [tooltipVisible, setTooltipVisible] = useState(true);
-
   return (
     <div className="whatsapp-widget-container" id="whatsappWidget">
-      {tooltipVisible && (
-        <div
-          className="whatsapp-tooltip"
-          id="whatsappTooltip"
-          onClick={onOpenWhatsApp}
-          style={{ cursor: 'pointer' }}
-        >
-          <div className="tooltip-avatar">
-            <img src="/assets/images/logo-serica.png" alt="SÉRICA" />
-          </div>
-          <div className="tooltip-text">
-            <strong>Vendedora SÉRICA</strong>
-            <span>En línea · ¿Podemos ayudarte con tu elección?</span>
-          </div>
-          <button
-            type="button"
-            className="tooltip-close"
-            id="tooltipClose"
-            aria-label="Cerrar tooltip"
-            onClick={(e) => {
-              e.stopPropagation();
-              setTooltipVisible(false);
-            }}
-          >
-            &times;
-          </button>
-        </div>
-      )}
-
       <button
         type="button"
         className="whatsapp-float-btn"
